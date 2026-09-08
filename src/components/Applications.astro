@@ -1,0 +1,204 @@
+---
+import { dicts, type Locale } from '../i18n/ui.ts';
+
+const locale = (Astro.currentLocale as Locale) ?? 'es';
+const t = dicts[locale];
+
+const letters = ['a', 'b', 'c', 'd', 'e', 'f'];
+const uses = t.apps.uses.map((u, i) => ({
+  n: String(i + 1).padStart(2, '0'),
+  ...u,
+  cls: letters[i],
+}));
+---
+
+<section class="apps" aria-labelledby="apps-title">
+  <div class="shell">
+    <div class="apps__head">
+      <p class="eyebrow reveal">{t.apps.eyebrow}</p>
+      <h2 class="apps__title reveal" id="apps-title" style="--rd:.1s">{t.apps.title}</h2>
+    </div>
+  </div>
+
+  <div class="apps__wall">
+    {uses.map((u, i) => (
+      <article class={`app-tile app-tile--${u.cls} reveal`} style={`--rd:${0.05 + i * 0.05}s`}>
+        <div class="shell app-tile__inner">
+          <span class="app-tile__ix mono">{u.n}</span>
+          <h3 class="app-tile__name">{u.name}</h3>
+          <p class="app-tile__ex">{u.ex}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .apps {
+    background: var(--paper);
+    color: var(--carbon);
+    padding-block: var(--sec-y);
+    overflow: hidden;
+  }
+
+  .apps__head {
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .apps__title {
+    margin-top: 1.2rem;
+    max-width: 16ch;
+  }
+
+  .apps__wall {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--line-l);
+    border-block: 1px solid var(--line-l);
+  }
+
+  .app-tile {
+    min-height: clamp(240px, 32vw, 340px);
+    display: flex;
+  }
+
+  .app-tile__inner {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-block: clamp(1.8rem, 3vw, 3rem);
+    width: 100%;
+  }
+
+  .app-tile__ix {
+    color: var(--mist);
+    font-size: var(--text-mono);
+  }
+
+  .app-tile__name {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    max-width: 12ch;
+    position: relative;
+    transition: transform 0.4s var(--ease);
+  }
+
+  .app-tile__name::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.14em;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s var(--ease);
+  }
+
+  .app-tile:hover .app-tile__name {
+    transform: translateX(6px);
+  }
+
+  .app-tile:hover .app-tile__name::after {
+    transform: scaleX(1);
+  }
+
+  .app-tile__ex {
+    max-width: 22rem;
+    font-size: var(--text-sm);
+    color: var(--mist);
+    margin: 1.4rem 0 0;
+  }
+
+  /* Paneles de estudio */
+  .app-tile--a {
+    background: var(--carbon);
+    color: var(--bone);
+  }
+  .app-tile--a .app-tile__ex,
+  .app-tile--a .app-tile__ix {
+    color: var(--mist-2);
+  }
+
+  .app-tile--b {
+    background: var(--paper-2);
+    color: var(--carbon);
+  }
+
+  .app-tile--c {
+    background: var(--pine);
+    color: var(--bone);
+  }
+  .app-tile--c .app-tile__ex,
+  .app-tile--c .app-tile__ix {
+    color: rgba(250, 248, 241, 0.75);
+  }
+
+  .app-tile--d {
+    background: #dfe1d3;
+    color: var(--carbon);
+  }
+
+  .app-tile--e {
+    background: var(--carbon-3);
+    color: var(--bone);
+  }
+  .app-tile--e .app-tile__ex,
+  .app-tile--e .app-tile__ix {
+    color: var(--mist-2);
+  }
+
+  .app-tile--f {
+    background: var(--paper-2);
+    color: var(--carbon);
+  }
+
+  /* Grid asimétrico */
+  @media (min-width: 720px) {
+    .apps__wall {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .app-tile--a,
+    .app-tile--f {
+      grid-column: span 2;
+    }
+    .app-tile--f {
+      min-height: clamp(220px, 24vw, 280px);
+    }
+    .app-tile--f .app-tile__inner {
+      flex-direction: row;
+      align-items: flex-end;
+      gap: 2rem;
+    }
+    .app-tile--f .app-tile__ex {
+      text-align: right;
+      margin: 0 0 0.4rem;
+    }
+  }
+
+  @media (min-width: 1080px) {
+    .apps__wall {
+      grid-template-columns: repeat(12, 1fr);
+    }
+    .app-tile--a {
+      grid-column: span 5;
+    }
+    .app-tile--b {
+      grid-column: span 7;
+    }
+    .app-tile--c {
+      grid-column: span 4;
+    }
+    .app-tile--d {
+      grid-column: span 4;
+    }
+    .app-tile--e {
+      grid-column: span 4;
+    }
+    .app-tile--f {
+      grid-column: span 12;
+    }
+  }
+</style>

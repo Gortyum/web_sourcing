@@ -1,0 +1,60 @@
+---
+import { dicts, type Locale } from '../i18n/ui.ts';
+import LeafMark from './LeafMark.astro';
+
+const locale = (Astro.currentLocale as Locale) ?? 'es';
+const t = dicts[locale];
+const year = new Date().getFullYear();
+
+const navLinks = [
+  { href: '#inicio', label: t.nav.home },
+  { href: '#productos', label: t.nav.products },
+  { href: '#nosotros', label: t.nav.about },
+  { href: '#proceso', label: t.nav.process },
+  { href: '#contacto', label: t.nav.contact },
+];
+---
+
+<footer class="site-foot">
+  <div class="shell">
+    <div class="site-foot__top">
+      <div class="site-foot__brand">
+        <a class="brand" href="#inicio" aria-label={`Eleni Sourcing — ${t.nav.home}`}>
+          <span class="brand__mark"><LeafMark n={34} /></span>
+          <span class="brand__name">
+            Eleni Sourcing
+            <span class="brand__tag">{t.brandTag}</span>
+          </span>
+        </a>
+        <p class="site-foot__blurb">
+          {t.foot.blurb}
+        </p>
+      </div>
+
+      <div class="site-foot__col">
+        <p class="mono">{t.foot.nav}</p>
+        <ul>
+          {navLinks.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+        </ul>
+      </div>
+
+      <div class="site-foot__col">
+        <p class="mono">{t.foot.contact}</p>
+        <ul class="site-foot__contact">
+          <li><a href="mailto:hola@elenisourcing.cl">hola@elenisourcing.cl</a></li>
+          <li><a href="https://wa.me/56900000000" rel="noopener">WhatsApp +56 9 0000 0000</a></li>
+          <li><span class="mono">Santiago · Chile</span></li>
+          <li><span class="mono">Sourcing Brasil ↔ Chile</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="site-foot__bottom">
+      <p>© {year} Eleni Sourcing SPA. {t.foot.rights}</p>
+      <nav class="site-foot__legal" aria-label="Legal">
+        <a href="#inicio">{t.foot.legalTerms}</a>
+        <a href="#inicio">{t.foot.legalPrivacy}</a>
+      </nav>
+    </div>
+  </div>
+</footer>

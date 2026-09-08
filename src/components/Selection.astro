@@ -1,0 +1,400 @@
+---
+import { dicts, productDisplay, type Locale } from '../i18n/ui.ts';
+import type { CollectionEntry } from 'astro:content';
+import ArrowIcon from './ArrowIcon.astro';
+import ProductFicha from './ProductFicha.astro';
+
+interface Props {
+  products: CollectionEntry<'products'>[];
+}
+
+const { products } = Astro.props;
+const locale = (Astro.currentLocale as Locale) ?? 'es';
+const t = dicts[locale];
+
+const total = products.length;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<section class="cue" id="productos" aria-labelledby="cue-title">
+  <div class="shell">
+    <header class="cue__head">
+      <div class="cue__head-left">
+        <p class="eyebrow reveal">{t.cue.eyebrow}</p>
+        <h2 class="cue__title reveal" id="cue-title" style="--rd:.1s">{t.cue.title}</h2>
+        <p class="cue__desc reveal" style="--rd:.2s">
+          {t.cue.desc}
+        </p>
+      </div>
+
+      <div class="cue__head-right reveal" style="--rd:.3s">
+        <p class="cue__count mono" aria-live="polite">
+          <span data-counter-current>{pad(1)}</span> / {pad(total)}
+        </p>
+        <div class="cue__nav">
+          <button class="arrowbtn" type="button" data-nav="prev" aria-label={t.cue.prev}>
+            <ArrowIcon n={16} />
+          </button>
+          <button class="arrowbtn" type="button" data-nav="next" aria-label={t.cue.next}>
+            <ArrowIcon n={16} />
+          </button>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <div class="cue__viewport" id="cueViewport">
+    <div class="cue__track" id="cueTrack" role="region" aria-label={t.cue.region} tabindex="0">
+      {products.map((p, i) => {
+        const disp = productDisplay(p.data, locale);
+        return (
+          <article
+            class={`cue__slide${i === 0 ? ' is-active' : ''}`}
+            id={`cue-slide-${p.data.slug}`}
+            data-index={i}
+            aria-label={`${i + 1} ${t.cue.of} ${total}`}
+            aria-hidden={i !== 0}
+          >
+            <div class="shell cue__inner">
+              <div class="cue__art">
+                <ProductFicha
+                  art={p.data.art}
+                  uid={`prod-${p.data.slug}`}
+                  idx={pad(i + 1)}
+                  name={disp.name}
+                  sku={p.data.sku}
+                  className="ficha--slide"
+                />
+              </div>
+
+              <div class="cue__info">
+                <p class="cue__cat mono">{disp.category}</p>
+                <h3 class="cue__name">{disp.name}</h3>
+                <p class="cue__desc">{disp.description}</p>
+
+                <dl class="cue__spec">
+                  <div>
+                    <dt>SKU</dt>
+                    <dd>{p.data.sku}</dd>
+                  </div>
+                  <div>
+                    <dt>{t.cue.specMaterial}</dt>
+                    <dd>{disp.material}</dd>
+                  </div>
+                  <div>
+                    <dt>{t.cue.specMoq}</dt>
+                    <dd>{p.data.moq}</dd>
+                  </div>
+                  <div>
+                    <dt>{t.cue.specOrigin}</dt>
+                    <dd>{disp.origin}</dd>
+                  </div>
+                </dl>
+
+                <p class="cue__cust mono">
+                  <span>{t.cue.cust}</span>
+                  {disp.customization}
+                </p>
+
+                <a
+                  class="btn btn--outline cue__cta"
+                  href="#formulario"
+                  data-quote-product={disp.name}
+                >
+                  {t.cue.quote} <ArrowIcon n={15} />
+                </a>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+
+  <div class="shell">
+    <div class="cue__progress" aria-hidden="true">
+      <span class="cue__progress-fill" data-counter-progress-fill></span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cue {
+    background: var(--carbon);
+    color: var(--bone);
+    padding-top: var(--sec-y);
+  }
+
+  .cue__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .cue__title {
+    margin-top: 1.2rem;
+    max-width: 14ch;
+  }
+
+  .cue__desc {
+    margin: 1.2rem 0 0;
+    max-width: 30rem;
+    color: var(--mist-2);
+    font-size: var(--text-sm);
+  }
+
+  .cue__head-right {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+  }
+
+  .cue__count {
+    color: var(--mist-2);
+    letter-spacing: 0.2em;
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  .cue__count [data-counter-current] {
+    color: var(--bone);
+    font-weight: 500;
+    font-size: 1.05rem;
+  }
+
+  .cue__nav {
+    display: flex;
+    gap: 0.6rem;
+  }
+
+  .arrowbtn {
+    width: 52px;
+    height: 52px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: 1px solid var(--line-d);
+    color: var(--bone);
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: border-color 0.25s var(--ease), color 0.25s var(--ease),
+      background-color 0.25s var(--ease), opacity 0.25s var(--ease);
+  }
+
+  .arrowbtn:hover:not(:disabled) {
+    border-color: var(--pine-hi);
+    color: var(--pine-hi);
+  }
+
+  .arrowbtn:disabled {
+    opacity: 0.3;
+    cursor: default;
+  }
+
+  .arrowbtn:first-child :global(svg) {
+    transform: rotate(-90deg);
+  }
+
+  .arrowbtn:last-child :global(svg) {
+    transform: rotate(90deg);
+  }
+
+  .cue__viewport {
+    overflow: hidden;
+  }
+
+  .cue__track {
+    display: flex;
+    transition: transform 0.75s var(--ease);
+  }
+
+  .cue__track.no-trans {
+    transition: none;
+  }
+
+  .cue__slide {
+    flex: 0 0 100%;
+    min-width: 0;
+  }
+
+  .cue__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+    padding-block: 0 2rem;
+  }
+
+  .cue__art {
+    min-width: 0;
+  }
+
+  .cue__info .cue__desc {
+    margin-top: 1.2rem;
+    max-width: 32rem;
+  }
+
+  .cue__cat {
+    color: var(--pine-hi);
+    letter-spacing: 0.22em;
+  }
+
+  .cue__name {
+    margin-top: 1rem;
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    max-width: 14ch;
+  }
+
+  .cue__spec {
+    margin: 2rem 0 0;
+    padding: 0;
+    border-top: 1px solid var(--line-d);
+    width: 100%;
+  }
+
+  .cue__spec > div {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: 1rem;
+    padding: 0.95rem 0;
+    border-bottom: 1px solid var(--line-d);
+    align-items: baseline;
+  }
+
+  .cue__spec dt {
+    color: var(--mist-2);
+    letter-spacing: 0.14em;
+  }
+
+  .cue__spec dd {
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  .cue__cust {
+    margin: 1.6rem 0 0;
+    color: var(--mist-2);
+    letter-spacing: 0.06em;
+    text-transform: none;
+    max-width: 34rem;
+  }
+
+  .cue__cust span {
+    display: block;
+    color: var(--pine-hi);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+
+  .cue__cta {
+    margin-top: 2rem;
+  }
+
+  .cue__progress {
+    position: relative;
+    height: 1px;
+    background: var(--line-d);
+    margin: clamp(1rem, 2.5vw, 2rem) 0 0;
+  }
+
+  .cue__progress-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 0;
+    height: 1px;
+    background: var(--pine-hi);
+    transition: width 0.75s var(--ease);
+  }
+
+  @media (min-width: 900px) {
+    .cue__inner {
+      grid-template-columns: 0.92fr 1fr;
+      align-items: center;
+    }
+
+    .cue__info {
+      display: grid;
+      justify-items: start;
+      padding-left: clamp(0rem, 3vw, 3rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cue__track {
+      transition: none;
+    }
+    .cue__progress-fill {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const track = document.getElementById('cueTrack');
+  const slides = Array.from(track?.querySelectorAll<HTMLElement>('.cue__slide') ?? []);
+  const counter = document.querySelector<HTMLElement>('[data-counter-current]');
+  const progressFill = document.querySelector<HTMLElement>('[data-counter-progress-fill]');
+  const prevBtn = document.querySelector<HTMLButtonElement>('[data-nav="prev"]');
+  const nextBtn = document.querySelector<HTMLButtonElement>('[data-nav="next"]');
+
+  const total = slides.length;
+  let index = 0;
+
+  const update = (noTransition = false) => {
+    if (noTransition) track?.classList.add('no-trans');
+    if (track) track.style.transform = `translateX(-${index * 100}%)`;
+    if (counter) counter.textContent = String(index + 1).padStart(2, '0');
+    if (progressFill) progressFill.style.width = `${((index + 1) / total) * 100}%`;
+    slides.forEach((s, i) => {
+      const active = i === index;
+      s.classList.toggle('is-active', active);
+      s.setAttribute('aria-hidden', String(!active));
+    });
+    if (prevBtn) prevBtn.disabled = index === 0;
+    if (nextBtn) nextBtn.disabled = index === total - 1;
+    if (noTransition) requestAnimationFrame(() => track?.classList.remove('no-trans'));
+  };
+
+  const go = (to: number) => {
+    const next = Math.max(0, Math.min(total - 1, to));
+    if (next === index) return;
+    index = next;
+    update();
+  };
+
+  document.querySelectorAll('[data-nav]').forEach((btn) => {
+    btn.addEventListener('click', () => go(index + (btn.getAttribute('data-nav') === 'next' ? 1 : -1)));
+  });
+
+  track?.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+      e.preventDefault();
+      go(index + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault();
+      go(index - 1);
+    }
+  });
+
+  const viewport = document.getElementById('cueViewport');
+  let startX = 0;
+  let deltaX = 0;
+  viewport?.addEventListener('touchstart', (e) => {
+    startX = e.touches[0].clientX;
+    deltaX = 0;
+  }, { passive: true });
+  viewport?.addEventListener('touchmove', (e) => {
+    deltaX = e.touches[0].clientX - startX;
+  }, { passive: true });
+  viewport?.addEventListener('touchend', () => {
+    const th = 60;
+    if (Math.abs(deltaX) > th) go(index + (deltaX < 0 ? 1 : -1));
+  }, { passive: true });
+
+  update(true);
+</script>

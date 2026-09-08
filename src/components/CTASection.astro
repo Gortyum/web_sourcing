@@ -1,0 +1,129 @@
+---
+import { dicts, type Locale } from '../i18n/ui.ts';
+import ArrowIcon from './ArrowIcon.astro';
+
+const locale = (Astro.currentLocale as Locale) ?? 'es';
+const t = dicts[locale];
+---
+
+<section class="cta" id="contacto" aria-labelledby="cta-title">
+  <div class="shell cta__inner">
+    <p class="eyebrow reveal">{t.cta.eyebrow}</p>
+    <h2 class="cta__title reveal" id="cta-title" style="--rd:.12s">
+      {t.cta.title}
+    </h2>
+    <p class="cta__sub reveal" style="--rd:.24s">
+      {t.cta.sub}
+    </p>
+    <div class="cta__actions reveal" style="--rd:.36s">
+      <a class="btn btn--primary btn--big" href="#formulario">
+        {t.cta.btn} <ArrowIcon n={18} />
+      </a>
+      <a class="btn btn--outline btn--big" href="mailto:proveedores@elenisourcing.cl" target="_blank" rel="noopener">
+        {t.cta.suppliers}
+      </a>
+    </div>
+    <ul class="cta__contacts reveal" style="--rd:.48s">
+      <li><span class="mono">{t.cta.wa}</span><a href="https://wa.me/56900000000" rel="noopener">+56 9 0000 0000</a></li>
+      <li><span class="mono">{t.cta.email}</span><a href="mailto:hola@elenisourcing.cl">hola@elenisourcing.cl</a></li>
+      <li><span class="mono">{t.cta.tel}</span><a href="tel:+56200000000">+56 2 0000 0000</a></li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .cta {
+    background: var(--carbon);
+    color: var(--bone);
+    padding-block: calc(var(--sec-y) * 0.9);
+    border-top: 1px solid var(--line-d);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+  }
+
+  .cta__title {
+    margin-top: 1.4rem;
+    font-size: clamp(2.4rem, 6vw, 4.6rem);
+    max-width: 13ch;
+  }
+
+  .cta__sub {
+    margin: 1.4rem 0 0;
+    max-width: 30rem;
+    color: var(--mist-2);
+    font-size: 1.05rem;
+  }
+
+  .cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.1rem;
+    margin-top: 2.4rem;
+  }
+
+  .cta__btn {
+    margin-top: 0;
+  }
+
+  .cta__contacts {
+    list-style: none;
+    margin: clamp(2.4rem, 5vw, 4rem) 0 0;
+    padding: 1.4rem 0 0;
+    border-top: 1px solid var(--line-d);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.9rem;
+    width: 100%;
+  }
+
+  .cta__contacts li {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+  }
+
+  .cta__contacts .mono {
+    color: var(--mist-2);
+  }
+
+  .cta__contacts a {
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.25s var(--ease), color 0.25s var(--ease);
+  }
+
+  .cta__contacts a:hover {
+    color: var(--pine-hi);
+    border-bottom-color: var(--pine-hi);
+  }
+
+  /* Sello decorativo superpuesto */
+  .cta::after {
+    content: '';
+    position: absolute;
+    right: -6rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(280px, 34vw, 480px);
+    aspect-ratio: 1;
+    border: 1px solid var(--line-d);
+    border-radius: 50%;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  @media (min-width: 720px) {
+    .cta__contacts {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+</style>

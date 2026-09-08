@@ -1,0 +1,388 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { dicts, productDisplay, type Locale } from '../i18n/ui.ts';
+import ArrowIcon from './ArrowIcon.astro';
+
+interface Props {
+  products: CollectionEntry<'products'>[];
+}
+
+const { products } = Astro.props;
+const locale = (Astro.currentLocale as Locale) ?? 'es';
+const t = dicts[locale];
+const todayISO = new Date().toISOString().split('T')[0];
+---
+
+<section class="qo" id="formulario" aria-labelledby="qo-title">
+  <div class="shell qo__grid">
+    <div class="qo__intro">
+      <p class="eyebrow reveal">{t.qo.eyebrow}</p>
+      <h2 class="qo__title reveal" id="qo-title" style="--rd:.1s">{t.qo.title}</h2>
+      <p class="qo__lede reveal" style="--rd:.2s">
+        {t.qo.lede}
+      </p>
+      <ul class="qo__what reveal" style="--rd:.3s">
+        {t.qo.what.map((w) => (
+          <li><span class="mono">{w.label}</span>{w.text}</li>
+        ))}
+      </ul>
+      <p class="qo__alt mono reveal" style="--rd:.4s">
+        {t.qo.alt} <a href="https://wa.me/56900000000" rel="noopener">{t.qo.wa}</a>
+      </p>
+    </div>
+
+    <form class="qo__form reveal" style="--rd:.25s" id="quoteForm" novalidate>
+      <input type="hidden" name="lang" value={locale} />
+      <div class="qo__fields">
+        <label class="field field--half">
+          <span>{t.qo.fName}</span>
+          <input type="text" name="name" autocomplete="name" required />
+        </label>
+        <label class="field field--half">
+          <span>{t.qo.fCompany}</span>
+          <input type="text" name="company" autocomplete="organization" />
+        </label>
+        <label class="field field--half">
+          <span>{t.qo.fEmail}</span>
+          <input type="email" name="email" autocomplete="email" required />
+        </label>
+        <label class="field field--half">
+          <span>{t.qo.fPhone}</span>
+          <input type="tel" name="phone" autocomplete="tel" />
+        </label>
+        <label class="field">
+          <span>{t.qo.fProduct}</span>
+          <select name="product" id="selProducto">
+            <option value="">{t.qo.selProduct}</option>
+            {products.map((p) => {
+              const disp = productDisplay(p.data, locale);
+              return <option value={disp.name}>{disp.name} · {p.data.sku}</option>;
+            })}
+            <option value={t.qo.otrodProduct}>{t.qo.otrodProduct}</option>
+          </select>
+        </label>
+        <div class="field-row">
+          <label class="field">
+            <span>{t.qo.fQty}</span>
+            <select name="quantity">
+              <option value="">{t.qo.selQty}</option>
+              {t.qo.quantities.map((q) => <option>{q}</option>)}
+            </select>
+          </label>
+          <label class="field">
+            <span>{t.qo.fDate}</span>
+            <input type="date" name="date" min={todayISO} />
+          </label>
+        </div>
+        <label class="field">
+          <span>{t.qo.fMsg}</span>
+          <textarea name="message" rows={4} placeholder={t.qo.msgPh}></textarea>
+        </label>
+      </div>
+
+      <div class="qo__actions">
+        <button class="btn btn--primary btn--big" type="submit" id="qoSubmit" data-submit={t.qo.submit} data-sending={t.qo.sending}>
+          <span id="qoSubmitLabel">{t.qo.submit}</span> <ArrowIcon n={17} />
+        </button>
+        <p class="qo__fine mono" id="qoFine">{t.qo.fine}</p>
+      </div>
+
+      <p class="qo__error" id="qoError" role="alert" hidden>{t.qo.sendError}</p>
+
+      <div class="qo__done" id="qoDone" hidden>
+        <span class="qo__done-mark" aria-hidden="true"></span>
+        <h3 class="qo__done-title">{t.qo.doneTitle}</h3>
+        <p class="qo__done-text">
+          {t.qo.doneText}
+        </p>
+        <p class="qo__done-note mono">
+          {t.qo.doneNote}
+        </p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<style>
+  .qo {
+    background: var(--paper);
+    color: var(--carbon);
+    padding-block: var(--sec-y);
+    border-top: 1px solid var(--line-l);
+  }
+
+  .qo__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  .qo__title {
+    margin-top: 1.2rem;
+  }
+
+  .qo__lede {
+    margin: 1.3rem 0 0;
+    font-family: var(--font-display);
+    font-weight: 390;
+    font-size: clamp(1.05rem, 1.5vw, 1.22rem);
+    line-height: 1.5;
+    max-width: 30rem;
+  }
+
+  .qo__what {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+  }
+
+  .qo__what li {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line-l);
+    font-size: 0.92rem;
+    color: var(--mist);
+  }
+
+  .qo__what .mono {
+    color: var(--pine);
+  }
+
+  .qo__alt {
+    margin-top: 1.6rem;
+    color: var(--mist);
+    letter-spacing: 0.06em;
+    text-transform: none;
+  }
+
+  .qo__alt a {
+    color: var(--pine);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+  }
+
+  /* Formulario */
+  .qo__form {
+    background: var(--bone);
+    border: 1px solid var(--line-l);
+    padding: clamp(1.6rem, 3.5vw, 2.8rem);
+    position: relative;
+  }
+
+  .qo__fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.1rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    flex: 1 1 100%;
+  }
+
+  .field--half {
+    flex: 1 1 calc(50% - 0.6rem);
+  }
+
+  .field span,
+  .field label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mist);
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    appearance: none;
+    border: 1px solid var(--line-l);
+    border-radius: 0;
+    background: #fff;
+    padding: 0.85rem 0.9rem;
+    font-size: 0.95rem;
+    color: var(--carbon);
+    transition: border-color 0.25s var(--ease);
+  }
+
+  .field textarea {
+    resize: vertical;
+    min-height: 110px;
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--pine);
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: #a8ab9f;
+  }
+
+  select {
+    background-image: linear-gradient(45deg, transparent 50%, var(--carbon) 50%),
+      linear-gradient(135deg, var(--carbon) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+  }
+
+  .field-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  .field-row .field {
+    flex: 1 1 calc(50% - 0.6rem);
+  }
+
+  .qo__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-top: 1.8rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--line-l);
+  }
+
+  .qo__fine {
+    color: var(--mist);
+    letter-spacing: 0.08em;
+  }
+
+  .qo__error {
+    margin: 1rem 0 0;
+    color: #9c3f1e;
+    font-size: 0.92rem;
+  }
+
+  .btn[disabled] {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  /* Estado enviado */
+  .qo__done[hidden],
+  .qo__error[hidden] {
+    display: none;
+  }
+
+  .qo__done {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    text-align: center;
+    padding: 2rem;
+    background: var(--bone);
+  }
+
+  .qo__done-mark {
+    width: 54px;
+    height: 54px;
+    border: 2px solid var(--pine);
+    border-radius: 50%;
+    position: relative;
+  }
+
+  .qo__done-mark::before {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    background: var(--pine);
+    border-radius: 50%;
+  }
+
+  .qo__done-title {
+    font-size: 1.9rem;
+  }
+
+  .qo__done-text {
+    max-width: 30rem;
+    color: var(--mist);
+  }
+
+  .qo__done-note {
+    color: var(--mist);
+    letter-spacing: 0.08em;
+  }
+
+  @media (min-width: 1000px) {
+    .qo__grid {
+      grid-template-columns: 0.8fr 1.2fr;
+    }
+
+    .qo__intro {
+      position: sticky;
+      top: calc(var(--nav-h) + 2.5rem);
+      align-self: start;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .field--half,
+    .field-row .field {
+      flex-basis: 100%;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('quoteForm') as HTMLFormElement | null;
+
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLAnchorElement>('[data-quote-product]');
+    if (!btn || !form) return;
+    const sel = document.getElementById('selProducto') as HTMLSelectElement | null;
+    const value = btn.dataset.quoteProduct || '';
+    if (sel && value) sel.value = value;
+  });
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const done = document.getElementById('qoDone') as HTMLElement | null;
+    const err = document.getElementById('qoError') as HTMLElement | null;
+    const btn = document.getElementById('qoSubmit') as HTMLButtonElement | null;
+    const label = document.getElementById('qoSubmitLabel') as HTMLSpanElement | null;
+    const origLabel = btn?.dataset.submit || '';
+
+    if (done) done.hidden = true;
+    if (err) err.hidden = true;
+    if (label && btn?.dataset.sending) label.textContent = btn.dataset.sending;
+    if (btn) btn.disabled = true;
+
+    try {
+      const res = await fetch('/api/quote', { method: 'POST', body: new FormData(form) });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (done) done.hidden = false;
+      form.reset();
+    } catch {
+      if (err) err.hidden = false;
+    } finally {
+      if (btn) btn.disabled = false;
+      if (label && origLabel) label.textContent = origLabel;
+    }
+  });
+</script>

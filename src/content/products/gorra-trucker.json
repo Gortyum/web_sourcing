@@ -1,0 +1,22 @@
+{
+  "id": "gorra-trucker",
+  "name": "Gorra trucker con perfil",
+  "slug": "gorra-trucker",
+  "description": "Gorra trucker con panel delantero rígido y cierre ajustable. De las activaciones de calle a la rifa de fin de año.",
+  "sku": "ET-CAP-TRK",
+  "category": "Textil",
+  "material": "Panel de algodón · Malla trasera",
+  "moq": "30 unidades",
+  "customization": "Bordado · Parche tejido · Impresión en panel",
+  "origin": "Importado — Brasil",
+  "name_pt": "Boné trucker com perfil",
+  "description_pt": "Boné trucker com painel dianteiro rígido e fecho ajustável. Das ativações de rua ao sorteio de fim de ano.",
+  "category_pt": "Têxtil",
+  "material_pt": "Painel de algodão · Tela traseira",
+  "customization_pt": "Bordado · Patch tecido · Impressão no painel",
+  "origin_pt": "Importado — Brasil",
+  "art": "cap",
+  "featured": true,
+  "active": true,
+  "display_order": 5
+}

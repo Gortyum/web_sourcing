@@ -1,0 +1,132 @@
+---
+import { dicts, localeFlags, type Locale } from '../i18n/ui.ts';
+import LeafMark from './LeafMark.astro';
+import ArrowIcon from './ArrowIcon.astro';
+
+const locale = (Astro.currentLocale as Locale) ?? 'es';
+const t = dicts[locale];
+
+const links = [
+  { href: '#inicio', label: t.nav.home },
+  { href: '#productos', label: t.nav.products },
+  { href: '#nosotros', label: t.nav.about },
+  { href: '#proceso', label: t.nav.process },
+  { href: '#contacto', label: t.nav.contact },
+];
+---
+
+<header class="site-head">
+  <div class="shell site-head__inner">
+    <a class="brand" href="#inicio" aria-label="Eleni Sourcing — inicio">
+      <span class="brand__mark"><LeafMark n={34} /></span>
+      <span class="brand__name">
+        Eleni Sourcing
+        <span class="brand__tag">{t.brandTag}</span>
+      </span>
+    </a>
+
+    <nav class="site-nav" aria-label="Principal">
+      <ul class="site-nav__list">
+        {links.map((l) => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="site-head__btns">
+      <nav class="lang" aria-label="Idioma / Language">
+        <a href="/" hreflang="es" class={locale === 'es' ? 'is-active' : ''}>{localeFlags.es}</a>
+        <span aria-hidden="true">/</span>
+        <a href="/pt/" hreflang="pt" class={locale === 'pt' ? 'is-active' : ''}>{localeFlags.pt}</a>
+      </nav>
+      <a class="btn btn--primary" href="#formulario">
+        {t.nav.quote} <ArrowIcon n={15} />
+      </a>
+      <button
+        class="nav-toggle tablet-hidden"
+        type="button"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="nav-toggle__line"></span>
+        <span class="nav-toggle__line"></span>
+        <span class="nav-toggle__line"></span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Menú móvil">
+    <div class="shell">
+      <ul>
+        {links.map((l) => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+      <div class="mobile-menu__lang">
+        <a href="/" hreflang="es" class={locale === 'es' ? 'is-active' : ''}>{localeFlags.es}</a>
+        <span aria-hidden="true">/</span>
+        <a href="/pt/" hreflang="pt" class={locale === 'pt' ? 'is-active' : ''}>{localeFlags.pt}</a>
+      </div>
+      <a class="btn btn--primary" href="#formulario">
+        {t.nav.quote} <ArrowIcon n={16} />
+      </a>
+    </div>
+  </nav>
+</header>
+
+<style>
+  .lang {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    color: var(--mist-2);
+  }
+
+  .lang a {
+    color: var(--mist-2);
+    text-decoration: none;
+    padding: 0.2rem 0.1rem;
+    transition: color 0.25s var(--ease);
+  }
+
+  .lang a:hover {
+    color: var(--bone);
+  }
+
+  .lang a.is-active {
+    color: var(--pine-hi);
+  }
+
+  .mobile-menu__lang {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.2rem 0 0.2rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.16em;
+    color: var(--mist-2);
+  }
+
+  .mobile-menu__lang a {
+    display: inline;
+    padding: 0;
+    border: none;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--mist-2);
+    text-transform: none;
+  }
+
+  .mobile-menu__lang a:hover {
+    color: var(--bone);
+  }
+
+  .mobile-menu__lang a.is-active {
+    color: var(--pine-hi);
+  }
+</style>

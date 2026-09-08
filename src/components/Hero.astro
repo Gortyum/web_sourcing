@@ -1,0 +1,231 @@
+---
+import { dicts, productDisplay, type Locale, type Product } from '../i18n/ui.ts';
+import { getCollection } from 'astro:content';
+import ArrowIcon from './ArrowIcon.astro';
+import ProductFicha from './ProductFicha.astro';
+
+const locale = (Astro.currentLocale as Locale) ?? 'es';
+const t = dicts[locale];
+
+const termoRaw = (await getCollection('products', ({ data }) => data.slug === 'botella-termica-500'))[0];
+const termo = productDisplay(termoRaw.data as Product, locale);
+
+const dateLabel = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'es-CL', {
+  month: 'long',
+  year: 'numeric',
+}).format(new Date());
+
+type Token = { word: string; em?: boolean };
+const tokens: Token[] = [
+  ...t.hero.title.split(' ').map((word) => ({ word })),
+  { word: t.hero.titleEm, em: true },
+  ...t.hero.titleEnd.split(' ').map((word) => ({ word })),
+];
+---
+
+<section class="hero" id="inicio" aria-label={locale === 'pt' ? 'Início' : 'Inicio'}>
+  <div class="shell hero__grid">
+    <div class="hero__copy">
+      <p class="eyebrow reveal" style="--rd:.05s">{t.hero.eyebrow}</p>
+      <h1 class="hero__title" data-hero-title>
+        {tokens.map((tok, i) => (
+          <>
+            {i > 0 && ' '}
+            <span class="hw">
+              <span class="hw__in" style={`--wd:${(i * 0.08).toFixed(2)}s`}>
+                {tok.em ? <em class="i hero__em">{tok.word}</em> : tok.word}
+              </span>
+            </span>
+          </>
+        ))}
+      </h1>
+      <p class="hero__lede reveal" style="--rd:.32s">
+        {t.hero.sub}
+      </p>
+      <div class="hero__cta reveal" style="--rd:.46s">
+        <a class="btn btn--primary btn--big" href="#formulario">
+          {t.hero.cta} <ArrowIcon n={17} />
+        </a>
+        <a class="btn btn--outline btn--big" href="mailto:proveedores@elenisourcing.cl" target="_blank" rel="noopener">
+          {t.hero.suppliers}
+        </a>
+        <a class="btn btn--text" href="#productos">
+          {t.hero.viewProducts} <ArrowIcon dir="down" n={16} />
+        </a>
+      </div>
+      <p class="hero__meta mono reveal" style="--rd:.6s">
+        <span>{t.hero.meta1}</span>
+        <span>{t.hero.meta2}</span>
+      </p>
+    </div>
+
+    <div class="hero__art reveal" style="--rd:.4s">
+      <ProductFicha
+        art="bottle"
+        uid="hero-termo"
+        idx="01"
+        name={termo.name}
+        sku="ET-TERMO-500"
+        className="ficha--hero"
+      />
+      <aside class="hero__note mono">
+        {t.hero.note}
+      </aside>
+    </div>
+  </div>
+
+  <div class="shell hero__foot-meta">
+    <p class="mono muted-d">{t.hero.strip}</p>
+    <p class="mono muted-d">{t.hero.updated} {dateLabel}</p>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-top: calc(var(--nav-h) + clamp(2.5rem, 7vh, 5rem));
+    padding-bottom: 0;
+    min-height: 100svh;
+    display: flow-root;
+    color: var(--bone);
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+    align-items: start;
+  }
+
+  .hero__copy {
+    min-width: 0;
+    max-width: 44rem;
+  }
+
+  .hero .eyebrow {
+    color: var(--bone);
+  }
+
+  /* Título — reveal palabra por palabra.
+     Por defecto: SIEMPRE visible (sin máscara, sin opacidad).
+     La animación solo se arma si JS corre, las fuentes cargan
+     y no hay prefers-reduced-motion. Un fallo en cualquiera de
+     esas condiciones deja el título visible, nunca oculto. */
+  .hero__title {
+    margin-top: 1.6rem;
+    font-size: var(--text-hero);
+    line-height: 1.04;
+  }
+
+  .hw {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding-bottom: 0.12em;
+  }
+
+  .hw__in {
+    display: inline-block;
+    transform: none;
+    opacity: 1;
+  }
+
+  .hero__title[data-anim] .hw__in {
+    transform: translateY(115%);
+    opacity: 0;
+  }
+
+  .hero__title[data-anim][data-in] .hw__in {
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 0.95s cubic-bezier(0.22, 1, 0.36, 1) var(--wd, 0s),
+      opacity 0.6s var(--ease) var(--wd, 0s);
+  }
+
+  .hero__em {
+    color: var(--pine-hi);
+  }
+
+  .hero__lede {
+    margin: 1.5rem 0 0;
+    max-width: 30rem;
+    color: rgba(250, 248, 241, 0.74);
+  }
+
+  .hero__cta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.4rem;
+    margin-top: 2.4rem;
+  }
+
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 2rem;
+    row-gap: 0.4rem;
+    margin: 2.2rem 0 0;
+    color: var(--mist-2);
+    letter-spacing: 0.16em;
+  }
+
+  .hero__art {
+    min-width: 0;
+  }
+
+  .hero__note {
+    margin: 1.1rem 0 0;
+    max-width: 24rem;
+    color: var(--mist-2);
+    letter-spacing: 0.06em;
+    text-transform: none;
+    font-size: 0.72rem;
+  }
+
+  .hero__foot-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.6rem 2rem;
+    margin-top: clamp(2.5rem, 6vw, 4.5rem);
+    padding-block: 1.2rem;
+    border-top: 1px solid var(--line-d);
+  }
+
+  @media (min-width: 900px) {
+    .hero__grid {
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__title .hw__in {
+      transform: none;
+      opacity: 1;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const title = document.querySelector<HTMLElement>('[data-hero-title]');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (title && !reduce) {
+    let armed = false;
+    const arm = () => {
+      if (armed) return;
+      armed = true;
+      title.setAttribute('data-anim', '');
+      setTimeout(() => title.setAttribute('data-in', ''), 60);
+    };
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(arm).catch(arm);
+    } else {
+      arm();
+    }
+    setTimeout(arm, 2200);
+  }
+</script>

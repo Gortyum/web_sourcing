@@ -1,0 +1,146 @@
+---
+import '../styles/global.css';
+import { localeFlags, locales, type Locale } from '../i18n/ui.ts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogType?: string;
+}
+
+const SITE = {
+  name: 'Eleni Sourcing',
+  url: 'https://www.elenisourcing.cl',
+};
+
+const locale: Locale = (Astro.currentLocale as Locale) ?? 'es';
+const isPt = locale === 'pt';
+const path = isPt ? '/pt/' : '/';
+const canonical = `${SITE.url}${path}`;
+const ogLocale = isPt ? 'pt_BR' : 'es_CL';
+
+const descEs =
+  'Productos promocionales, merchandising corporativo y regalos empresariales para marcas en Chile. Sourcing, importación y personalización de productos para empresas, eventos y campañas.';
+const descPt =
+  'Produtos promocionais, merchandising corporativo e presentes empresariais para marcas no Chile. Sourcing, importação e personalização de produtos para empresas, eventos e campanhas.';
+
+const defaults = {
+  title: isPt
+    ? 'Eleni Sourcing — Produtos promocionais para empresas no Chile | Merchandising corporativo'
+    : 'Eleni Sourcing — Productos promocionales para empresas en Chile | Merchandising corporativo',
+  description: isPt ? descPt : descEs,
+};
+
+const { title = defaults.title, description = defaults.description, ogType = 'website' } = Astro.props;
+const fullTitle = title === defaults.title ? title : `${title} · Eleni Sourcing`;
+const ogImage = `${SITE.url}/og.svg`;
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonical} />
+    {locales.map((l) => (
+      <link rel="alternate" hreflang={l} href={`${SITE.url}${l === 'es' ? '/' : `/${l}/`}`} />
+    ))}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Tipografía -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,340..600;1,9..144,340..600&family=Manrope:wght@400;500;600;750&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Schema.org -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'Eleni Sourcing',
+      url: SITE.url,
+      logo: `${SITE.url}/favicon.svg`,
+      description: defaults.description,
+      address: { '@type': 'PostalAddress', addressCountry: 'CL', addressLocality: 'Santiago' },
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'sales',
+        email: 'hola@elenisourcing.cl',
+        availableLanguage: ['es'],
+      },
+    })} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: SITE.name,
+      url: SITE.url,
+      inLanguage: 'es-CL',
+    })} />
+  </head>
+  <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+    <slot />
+    <script>
+      // Estado del header + menú móvil
+      const head = document.querySelector('.site-head');
+      const toggle = document.querySelector('.nav-toggle');
+      const menu = document.getElementById('mobile-menu');
+
+      const onScroll = () => head?.classList.toggle('is-scrolled', window.scrollY > 24);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      toggle?.addEventListener('click', () => {
+        const open = head?.classList.toggle('is-open') ?? false;
+        toggle.setAttribute('aria-expanded', String(open));
+        menu?.classList.toggle('is-open', open);
+        if (!open) menu?.classList.toggle('is-open', false);
+      });
+      menu?.addEventListener('click', (e) => {
+        const a = e.target.closest('a');
+        if (a) {
+          head?.classList.remove('is-open');
+          menu?.classList.remove('is-open');
+          toggle?.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Reveal al hacer scroll (respeta prefers-reduced-motion)
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const targets = document.querySelectorAll('.reveal');
+      if (reduce || !('IntersectionObserver' in window)) {
+        targets.forEach((t) => t.classList.add('is-in'));
+      } else {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((en) => {
+              if (en.isIntersecting) {
+                en.target.classList.add('is-in');
+                io.unobserve(en.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -6% 0px' }
+        );
+        targets.forEach((t) => io.observe(t));
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "id": "kit-corporativo",
+  "name": "Kit corporativo a medida",
+  "slug": "kit-corporativo",
+  "description": "Combinación de productos curados en torno a un objetivo, montados como regalo. El mejor rendimiento de marca por unidad de regalo.",
+  "sku": "ET-KIT-CM",
+  "category": "Kits",
+  "material": "Selección curada · Caja de regalo",
+  "moq": "Desde 10 kits",
+  "customization": "Combinación a medida · Montaje y despacho unitario",
+  "origin": "Almacenado y armado en Chile",
+  "name_pt": "Kit corporativo sob medida",
+  "description_pt": "Combinação de produtos curados em torno de um objetivo, montados como presente. O melhor desempenho de marca por unidade de presente.",
+  "category_pt": "Kits",
+  "material_pt": "Seleção curada · Caixa de presente",
+  "customization_pt": "Combinação sob medida · Montagem e envio unitário",
+  "origin_pt": "Armazenado e montado no Chile",
+  "art": "kit",
+  "featured": true,
+  "active": true,
+  "display_order": 6
+}

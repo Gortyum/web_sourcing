@@ -1,0 +1,130 @@
+---
+import { dicts, type Locale } from '../i18n/ui.ts';
+
+const locale = (Astro.currentLocale as Locale) ?? 'es';
+const t = dicts[locale];
+
+const services = t.svc.items.map((s, i) => ({
+  n: String(i + 1).padStart(2, '0'),
+  ...s,
+}));
+---
+
+<section class="svc sec--paper" aria-labelledby="svc-title">
+  <div class="shell svc__grid">
+    <div class="svc__intro">
+      <p class="eyebrow reveal">{t.svc.eyebrow}</p>
+      <h2 class="svc__title reveal" id="svc-title" style="--rd:.1s">{t.svc.title}</h2>
+      <p class="svc__lede reveal" style="--rd:.2s">
+        {t.svc.lede}
+      </p>
+      <p class="svc__note mono reveal" style="--rd:.3s">
+        {t.svc.note}
+      </p>
+    </div>
+
+    <ol class="svc__list">
+      {services.map((s, i) => (
+        <li class="svc__row reveal" style={`--rd:${i * 0.08}s`}>
+          <span class="svc__row-n mono" aria-hidden="true">{s.n}</span>
+          <div class="svc__row-body">
+            <h3 class="svc__row-name">{s.name}</h3>
+            <p class="svc__row-desc">{s.desc}</p>
+          </div>
+          <span class="svc__row-tag mono">{s.tag}</span>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .svc {
+    color: var(--carbon);
+    padding-block: var(--sec-y);
+  }
+
+  .svc__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  .svc__intro {
+    max-width: 30rem;
+  }
+
+  .svc__intro .eyebrow {
+    color: var(--pine);
+  }
+
+  .svc__title {
+    margin-top: 1.2rem;
+  }
+
+  .svc__lede {
+    margin: 1.4rem 0 0;
+  }
+
+  .svc__note {
+    margin: 1.6rem 0 0;
+    color: var(--mist);
+    letter-spacing: 0.14em;
+  }
+
+  .svc__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line-l);
+  }
+
+  .svc__row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0 2rem;
+    align-items: baseline;
+    padding: clamp(1.6rem, 3vw, 2.4rem) 0;
+    border-bottom: 1px solid var(--line-l);
+  }
+
+  .svc__row-n {
+    color: var(--pine);
+    font-size: var(--text-mono);
+  }
+
+  .svc__row-name {
+    font-size: clamp(1.7rem, 2.8vw, 2.3rem);
+    transition: transform 0.4s var(--ease), color 0.3s var(--ease);
+  }
+
+  .svc__row-desc {
+    margin: 0.7rem 0 0;
+    max-width: 30rem;
+    color: var(--mist);
+    font-size: var(--text-sm);
+  }
+
+  .svc__row-tag {
+    grid-column: 2;
+    margin-top: 1.1rem;
+    color: var(--pine);
+    letter-spacing: 0.14em;
+  }
+
+  .svc__row:hover .svc__row-name {
+    transform: translateX(8px);
+  }
+
+  @media (min-width: 1000px) {
+    .svc__grid {
+      grid-template-columns: 0.85fr 1.15fr;
+    }
+
+    .svc__intro {
+      position: sticky;
+      top: calc(var(--nav-h) + 2.5rem);
+      align-self: start;
+    }
+  }
+</style>

@@ -1,0 +1,22 @@
+{
+  "id": "cuaderno-tapa-dura",
+  "name": "Cuaderno tapa dura",
+  "slug": "cuaderno-tapa-dura",
+  "description": "Cuaderno de tapa dura con interior de 120 hojas papel 90 g. Peso de calidad, sensación de permanencia.",
+  "sku": "ET-NOTE-HC",
+  "category": "Papelería",
+  "material": "Cartón forrado · Papel 90 g",
+  "moq": "40 unidades",
+  "customization": "Gofrado · Serigrafía en tapa · Detalle en lomo",
+  "origin": "Importado — Brasil",
+  "name_pt": "Caderno capa dura",
+  "description_pt": "Caderno de capa dura com interior de 120 folhas em papel 90 g. Peso de qualidade, sensação de permanência.",
+  "category_pt": "Papelaria",
+  "material_pt": "Cartão revestido · Papel 90 g",
+  "customization_pt": "Relevo · Serigrafia na capa · Detalhe na lombada",
+  "origin_pt": "Importado — Brasil",
+  "art": "notebook",
+  "featured": true,
+  "active": true,
+  "display_order": 3
+}

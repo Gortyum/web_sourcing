@@ -1,0 +1,22 @@
+{
+  "id": "set-ceramica-esmaltada",
+  "name": "Taza cerámica esmaltada",
+  "slug": "taza-ceramica-esmaltada",
+  "description": "Taza de cerámica esmaltada a mano, con acabado artesanal. Para regalos que se quieren dar, no que se tienen que dar.",
+  "sku": "ET-CER-330",
+  "category": "Decoración",
+  "material": "Cerámica esmaltada 330 ml",
+  "moq": "20 unidades",
+  "customization": "Pigmento cerámico · Calcomanía de alta temperatura",
+  "origin": "Importado — Brasil",
+  "name_pt": "Caneca de cerâmica esmaltada",
+  "description_pt": "Caneca de cerâmica esmaltada à mão, com acabamento artesanal. Para presentes que se quer dar, não que se precisa dar.",
+  "category_pt": "Decoração",
+  "material_pt": "Cerâmica esmaltada 330 ml",
+  "customization_pt": "Pigmento cerâmico · Decalque de alta temperatura",
+  "origin_pt": "Importado — Brasil",
+  "art": "mug",
+  "featured": true,
+  "active": true,
+  "display_order": 4
+}

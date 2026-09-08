@@ -1,0 +1,22 @@
+{
+  "id": "btn-termo-500",
+  "name": "Botella térmica 500 ml",
+  "slug": "botella-termica-500",
+  "description": "Botella de acero inoxidable que mantiene la temperatura hasta 12 horas. El artículo promocional que más se usa, y el que más se recuerda.",
+  "sku": "ET-TERMO-500",
+  "category": "Hidratación",
+  "material": "Acero inoxidable 304",
+  "moq": "60 unidades",
+  "customization": "Grabado láser · Estampado UV · Hasta 4 colores",
+  "origin": "Importado — origen Asia / Europa",
+  "name_pt": "Garrafa térmica 500 ml",
+  "description_pt": "Garrafa em aço inoxidável que mantém a temperatura por até 12 horas. O brinde promocional mais usado — e o mais lembrado.",
+  "category_pt": "Hidratação",
+  "material_pt": "Aço inoxidável 304",
+  "customization_pt": "Gravação a laser · Impressão UV · Até 4 cores",
+  "origin_pt": "Importado — origem Ásia / Europa",
+  "art": "bottle",
+  "featured": true,
+  "active": true,
+  "display_order": 1
+}

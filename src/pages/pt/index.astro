@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import SiteShell from '../../components/SiteShell.astro';
+
+const products = (
+  await getCollection('products', ({ data }) => data.active && data.featured)
+)
+  .filter((p) => p.data.active && p.data.featured)
+  .sort((a, b) => a.data.display_order - b.data.display_order);
+
+if (products.length === 0) {
+  throw new Error('No hay productos activos destacados en la colección.');
+}
+---
+
+<Base>
+  <SiteShell products={products} />
+</Base>

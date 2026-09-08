@@ -1,0 +1,159 @@
+---
+import { dicts, type Locale } from '../i18n/ui.ts';
+
+const locale = (Astro.currentLocale as Locale) ?? 'es';
+const t = dicts[locale];
+
+const caps = t.abt.caps;
+---
+
+<section class="abt" id="nosotros" aria-labelledby="abt-title">
+  <div class="shell abt__grid">
+    <div class="abt__side">
+      <p class="eyebrow reveal">{t.abt.eyebrow}</p>
+      <div class="abt__mark reveal" aria-hidden="true">
+        <!-- sello hoja -->
+      </div>
+    </div>
+
+    <div class="abt__body">
+      <h2 class="abt__title reveal" id="abt-title" style="--rd:.1s">
+        {t.abt.title} <em class="i">{t.abt.titleEm}</em>
+      </h2>
+
+      <div class="abt__cols">
+        <p class="abt__p reveal" style="--rd:.2s">
+          {t.abt.p1}
+        </p>
+        <p class="abt__p reveal" style="--rd:.3s">
+          {t.abt.p2}
+        </p>
+      </div>
+
+      <ul class="abt__caps" role="list">
+        {caps.map((c, i) => (
+          <li class="reveal" style={`--rd:${0.15 + i * 0.07}s`}>
+            <span class="abt__caps-n mono" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <span>{c}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .abt {
+    background: var(--paper);
+    color: var(--carbon);
+    padding-block: var(--sec-y);
+    border-top: 1px solid var(--line-l);
+  }
+
+  .abt__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+  }
+
+  .abt__side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .abt__mark {
+    width: 64px;
+    height: 64px;
+    border: 2px solid var(--pine);
+    border-radius: 50%;
+    position: relative;
+    transform: rotate(-12deg);
+  }
+
+  .abt__mark::before,
+  .abt__mark::after {
+    content: '';
+    position: absolute;
+    background: var(--pine);
+    border-radius: 50%;
+  }
+
+  .abt__mark::before {
+    width: 30px;
+    height: 30px;
+    left: 15px;
+    top: 15px;
+  }
+
+  .abt__mark::after {
+    width: 14px;
+    height: 14px;
+    left: 24px;
+    top: 24px;
+    background: var(--paper);
+  }
+
+  .abt__title {
+    font-size: var(--text-h1);
+    max-width: 20ch;
+  }
+
+  .abt__title em {
+    color: var(--pine);
+  }
+
+  .abt__cols {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    margin-top: clamp(1.8rem, 3.5vw, 2.8rem);
+  }
+
+  .abt__p {
+    margin: 0;
+    max-width: 34rem;
+    font-size: 1.02rem;
+  }
+
+  .abt__caps {
+    list-style: none;
+    margin: clamp(2rem, 4vw, 3.2rem) 0 0;
+    padding: 0;
+    border-top: 1px solid var(--line-l);
+  }
+
+  .abt__caps li {
+    display: flex;
+    align-items: baseline;
+    gap: 1.4rem;
+    padding: 0.95rem 0;
+    border-bottom: 1px solid var(--line-l);
+    font-weight: 600;
+    font-size: 0.98rem;
+  }
+
+  .abt__caps-n {
+    color: var(--pine);
+    font-size: var(--text-mono);
+    min-width: 2.4rem;
+  }
+
+  @media (min-width: 900px) {
+    .abt__grid {
+      grid-template-columns: 0.35fr 1fr;
+    }
+
+    .abt__cols {
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(1.5rem, 4vw, 4rem);
+    }
+
+    .abt__side {
+      position: sticky;
+      top: calc(var(--nav-h) + 2.5rem);
+      align-self: start;
+    }
+  }
+</style>

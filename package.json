@@ -1,0 +1,20 @@
+{
+  "name": "vitrina-promo",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Vitrina digital premium para Eleni Sourcing — productos promocionales, merchandising corporativo e importación.",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@astrojs/node": "^9.5.5",
+    "astro": "^5.0.0",
+    "resend": "^6.26.0"
+  }
+}

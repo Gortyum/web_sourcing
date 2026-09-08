@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#151710"/>
+  <rect x="0" y="0" width="1200" height="630" fill="url(#light)"/>
+  <rect width="52" height="52" x="72" y="64" rx="6" fill="#3d6a4c"/>
+  <path d="M26 66C13 59 9 45 15 30C29 30.6 38 35 42 44C43.4 47.4 43.9 51 42.4 55C38.6 60 33 62.2 26 66Z" fill="#faf8f1"/>
+  <path d="M17 32C20 21 30 17 39 20C30 21 22 25 17 32Z" fill="#5d8a69" transform="translate(-2 -3)"/>
+  <text x="152" y="78" font-family="Arial, sans-serif" font-weight="700" font-size="26" fill="#faf8f1">ELENI SOURCING</text>
+  <text x="154" y="104" font-family="Arial, sans-serif" font-weight="400" font-size="15" letter-spacing="6" fill="#a8ab9f">PROMOCIONALES · IMPORTACIÓN</text>
+  <text x="110" y="360" font-family="Georgia, serif" font-size="74" fill="#faf8f1">Productos que hacen</text>
+  <text x="110" y="444" font-family="Georgia, serif" font-style="italic" font-size="74" fill="#5d8a69">visible tu marca.</text>
+  <text x="112" y="500" font-family="Arial, sans-serif" font-size="20" fill="#a8ab9f">Soluciones promocionales para empresas, eventos y campañas en Chile.</text>
+  <line x1="110" y1="540" x2="1090" y2="540" stroke="#faf8f1" opacity="0.15"/>
+  <text x="112" y="578" font-family="Arial, sans-serif" font-size="14" letter-spacing="3" fill="#a8ab9f">ELENISOURCING.CL</text>
+  <g opacity="0.5">
+    <circle cx="1080" cy="180" r="90" fill="none" stroke="#faf8f1" opacity="0.12"/>
+    <rect x="240" y="130" width="150" height="46" rx="10" fill="none" stroke="#faf8f1" opacity="0.5"/>
+  </g>
+  <defs>
+    <radialGradient id="light" cx="0.5" cy="0.1" r="1.2">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

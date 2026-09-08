@@ -1,0 +1,130 @@
+---
+import { dicts, type Locale } from '../i18n/ui.ts';
+
+const locale = (Astro.currentLocale as Locale) ?? 'es';
+const t = dicts[locale];
+
+const steps = t.prc.steps.map((s, i) => ({
+  n: String(i + 1).padStart(2, '0'),
+  ...s,
+}));
+---
+
+<section class="proc" id="proceso" aria-labelledby="proc-title">
+  <div class="shell">
+    <header class="proc__head">
+      <div>
+        <p class="eyebrow reveal">{t.prc.eyebrow}</p>
+        <h2 class="proc__title reveal" id="proc-title" style="--rd:.1s">{t.prc.title}</h2>
+      </div>
+      <p class="proc__desc reveal" style="--rd:.2s">
+        {t.prc.desc}
+      </p>
+    </header>
+
+    <ol class="proc__steps">
+      {steps.map((s, i) => (
+        <li class="proc__step reveal" style={`--rd:${0.1 + i * 0.12}s`}>
+          <span class="proc__num" aria-hidden="true">{s.n}</span>
+          <h3 class="proc__name">{s.name}</h3>
+          <p class="proc__desc">{s.desc}</p>
+          <p class="proc__hint mono">{s.hint}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .proc {
+    background: var(--carbon-2);
+    color: var(--bone);
+    padding-block: var(--sec-y);
+    border-top: 1px solid var(--line-d);
+  }
+
+  .proc__head {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.6rem;
+    align-items: end;
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .proc__title {
+    margin-top: 1.2rem;
+  }
+
+  .proc__head .proc__desc {
+    margin: 0;
+    max-width: 26rem;
+    color: var(--mist-2);
+  }
+
+  .proc__steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--line-d);
+  }
+
+  .proc__step {
+    padding: clamp(2rem, 4vw, 3.2rem) 0;
+    border-bottom: 1px solid var(--line-d);
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+  }
+
+  .proc__num {
+    font-family: var(--font-display);
+    font-size: clamp(3.4rem, 7vw, 5.6rem);
+    font-weight: 420;
+    line-height: 0.9;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--pine-hi);
+    opacity: 0.9;
+  }
+
+  .proc__name {
+    margin-top: 1.2rem;
+    font-size: clamp(1.9rem, 3vw, 2.5rem);
+  }
+
+  .proc__step .proc__desc {
+    margin: 0.4rem 0 0;
+    max-width: 24rem;
+    color: var(--mist-2);
+    font-size: var(--text-sm);
+  }
+
+  .proc__hint {
+    margin: 1.2rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line-d);
+    color: var(--pine-hi);
+    letter-spacing: 0.14em;
+  }
+
+  @media (min-width: 900px) {
+    .proc__head {
+      grid-template-columns: 1fr auto;
+    }
+
+    .proc__steps {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .proc__step + .proc__step {
+      border-left: 1px solid var(--line-d);
+      padding-left: clamp(1.8rem, 3.5vw, 3.5rem);
+    }
+
+    .proc__step:nth-child(1) {
+      padding-right: clamp(1.8rem, 3.5vw, 3.5rem);
+    }
+  }
+</style>

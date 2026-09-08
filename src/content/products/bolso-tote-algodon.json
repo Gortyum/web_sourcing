@@ -1,0 +1,22 @@
+{
+  "id": "tote-algodon-organico",
+  "name": "Bolso tote algodón orgánico",
+  "slug": "bolso-tote-algodon",
+  "description": "Bolsa de algodón orgánico de 240 g/m² con confección reforzada. Un soporte honesto para tu marca en el día a día del cliente.",
+  "sku": "ET-TOTE-240",
+  "category": "Merchandising",
+  "material": "Algodón orgánico 240 g/m²",
+  "moq": "50 unidades",
+  "customization": "Serigrafía · Bordado · Gofrado en frío",
+  "origin": "Importado — Brasil",
+  "name_pt": "Bolsa tote de algodão orgânico",
+  "description_pt": "Bolsa de algodão orgânico de 240 g/m² com costura reforçada. Um suporte honesto para a sua marca no dia a dia do cliente.",
+  "category_pt": "Merchandising",
+  "material_pt": "Algodão orgânico 240 g/m²",
+  "customization_pt": "Serigrafia · Bordado · Relevo a frio",
+  "origin_pt": "Importado — Brasil",
+  "art": "tote",
+  "featured": true,
+  "active": true,
+  "display_order": 2
+}
