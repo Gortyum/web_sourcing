@@ -1,11 +1,12 @@
 import { defineConfig } from 'astro/config';
-import node from '@astrojs/node';
+import vercel from '@astrojs/vercel';
 
 export default defineConfig({
   site: 'https://www.elenisourcing.cl',
   compressHTML: true,
   output: 'server',
-  adapter: node({ mode: 'standalone' }),
+  adapter: vercel(),
+
   i18n: {
     defaultLocale: 'es',
     locales: ['es', 'pt'],
@@ -15,8 +16,8 @@ export default defineConfig({
       fallbackType: 'rewrite',
     },
   },
-  // El endpoint /api/quote es una API pública de captación de leads que se
-  // consume solo desde el propio frontend; checkOrigin (default) rechazaba
-  // los POST legítimos al comparar el host de producción.
-  security: { checkOrigin: false },
+
+  security: {
+    checkOrigin: false,
+  },
 });
