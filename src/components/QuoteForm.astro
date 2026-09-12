@@ -87,7 +87,7 @@ const todayISO = new Date().toISOString().split('T')[0];
         <p class="qo__fine mono" id="qoFine">{t.qo.fine}</p>
       </div>
 
-      <p class="qo__error" id="qoError" role="alert" hidden>{t.qo.sendError}</p>
+      <p class="qo__error" id="qoError" role="alert" hidden data-base={t.qo.sendError}></p>
 
       <div class="qo__done" id="qoDone" hidden>
         <span class="qo__done-mark" aria-hidden="true"></span>
@@ -375,11 +375,21 @@ const todayISO = new Date().toISOString().split('T')[0];
 
     try {
       const res = await fetch('/api/quote', { method: 'POST', body: new FormData(form) });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) {
+        let detail = '';
+        try { detail = (await res.json()).detail || ''; } catch { /* no JSON */ }
+        throw new Error(detail || `HTTP ${res.status}`);
+      }
       if (done) done.hidden = false;
       form.reset();
-    } catch {
-      if (err) err.hidden = false;
+    } catch (e) {
+      if (err) {
+        err.hidden = false;
+        const detail = e instanceof Error && e.message && !e.message.startsWith('HTTP')
+          ? ` (${e.message})`
+          : '';
+        err.textContent = (err.dataset.base || '') + detail;
+      }
     } finally {
       if (btn) btn.disabled = false;
       if (label && origLabel) label.textContent = origLabel;

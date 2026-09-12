@@ -78,7 +78,7 @@ const t = dicts[locale];
         <p class="sup__fine mono" id="supFine">{t.sup.fine}</p>
       </div>
 
-      <p class="sup__error" id="supError" role="alert" hidden>{t.sup.sendError}</p>
+      <p class="sup__error" id="supError" role="alert" hidden data-base={t.sup.sendError}></p>
 
       <div class="sup__done" id="supDone" hidden>
         <span class="sup__done-mark" aria-hidden="true"></span>
@@ -350,11 +350,21 @@ const t = dicts[locale];
 
     try {
       const res = await fetch('/api/supplier', { method: 'POST', body: new FormData(form) });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) {
+        let detail = '';
+        try { detail = (await res.json()).detail || ''; } catch { /* no JSON */ }
+        throw new Error(detail || `HTTP ${res.status}`);
+      }
       if (done) done.hidden = false;
       form.reset();
-    } catch {
-      if (err) err.hidden = false;
+    } catch (e) {
+      if (err) {
+        err.hidden = false;
+        const detail = e instanceof Error && e.message && !e.message.startsWith('HTTP')
+          ? ` (${e.message})`
+          : '';
+        err.textContent = (err.dataset.base || '') + detail;
+      }
     } finally {
       if (btn) btn.disabled = false;
       if (label && origLabel) label.textContent = origLabel;

@@ -72,7 +72,7 @@ const tokens: Token[] = [
         <button class="btn btn--primary btn--big hform__btn" type="submit" id="cFormSubmit" data-submit={t.contact.submit} data-sending={t.contact.sending}>
           <span id="cFormSubmitLabel">{t.contact.submit}</span> <ArrowIcon n={17} />
         </button>
-        <p class="hform__error" id="cFormError" role="alert" hidden>{t.contact.sendError}</p>
+        <p class="hform__error" id="cFormError" role="alert" hidden data-base={t.contact.sendError}></p>
         <p class="hform__done" id="cFormDone" hidden>
           <span class="hform__done-title">{t.contact.doneTitle}</span>
           <span>{t.contact.doneText}</span>
@@ -346,11 +346,21 @@ const tokens: Token[] = [
 
     try {
       const res = await fetch('/api/contact', { method: 'POST', body: new FormData(cform) });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) {
+        let detail = '';
+        try { detail = (await res.json()).detail || ''; } catch { /* no JSON */ }
+        throw new Error(detail || `HTTP ${res.status}`);
+      }
       if (done) done.hidden = false;
       cform.reset();
-    } catch {
-      if (err) err.hidden = false;
+    } catch (e) {
+      if (err) {
+        err.hidden = false;
+        const detail = e instanceof Error && e.message && !e.message.startsWith('HTTP')
+          ? ` (${e.message})`
+          : '';
+        err.textContent = (err.dataset.base || '') + detail;
+      }
     } finally {
       if (btn) btn.disabled = false;
       if (label && origLabel) label.textContent = origLabel;
