@@ -61,10 +61,29 @@ const t = dicts[locale];
             </select>
           </label>
           <label class="field">
+            <span>{t.sup.fExport}</span>
+            <select name="exports">
+              <option value="">{t.sup.selExport}</option>
+              {t.sup.exportOptions.map((x) => (
+                <option>{x}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <div class="field-row">
+          <label class="field">
+            <span>{t.sup.fMarkets}</span>
+            <input type="text" name="markets" placeholder={t.sup.marketsPh} />
+          </label>
+          <label class="field">
             <span>{t.sup.fMoq}</span>
             <input type="text" name="moq" placeholder={t.sup.moqPh} />
           </label>
         </div>
+        <label class="field">
+          <span>{t.sup.fCapability}</span>
+          <input type="text" name="capability" placeholder={t.sup.capabilityPh} />
+        </label>
         <label class="field">
           <span>{t.sup.fMsg}</span>
           <textarea name="message" rows={4} placeholder={t.sup.msgPh}></textarea>

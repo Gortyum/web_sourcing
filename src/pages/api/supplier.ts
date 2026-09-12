@@ -21,7 +21,10 @@ export const POST: APIRoute = async ({ request }) => {
   const phone = get('phone');
   const category = get('category');
   const origin = get('origin');
+  const exports_ = get('exports');
+  const markets = get('markets');
   const moq = get('moq');
+  const capability = get('capability');
   const message = get('message');
   const lang = get('lang') === 'pt' ? 'pt' : 'es';
 
@@ -38,8 +41,11 @@ export const POST: APIRoute = async ({ request }) => {
     email: 'Email',
     phone: lang === 'pt' ? 'Telefone' : 'Teléfono',
     category: lang === 'pt' ? 'Categorias' : 'Categorías de producto',
-    origin: lang === 'pt' ? 'Origem' : 'Origen',
+    origin: lang === 'pt' ? 'De onde exporta' : '¿Desde dónde exportas?',
+    exports: lang === 'pt' ? 'Já exporta?' : '¿Ya exportas?',
+    markets: lang === 'pt' ? 'Principais mercados' : 'Principales mercados',
     moq: lang === 'pt' ? 'MOQ mínimo' : 'MOQ mínimo',
+    capability: lang === 'pt' ? 'Capacidade de produção / personalização' : 'Capacidad de producción / personalización',
     message: lang === 'pt' ? 'Mensagem' : 'Mensaje',
   };
 
@@ -50,7 +56,10 @@ export const POST: APIRoute = async ({ request }) => {
     phone ? { label: labels.phone, value: phone } : emptyRow,
     category ? { label: labels.category, value: category } : emptyRow,
     origin ? { label: labels.origin, value: origin } : emptyRow,
+    exports_ ? { label: labels.exports, value: exports_ } : emptyRow,
+    markets ? { label: labels.markets, value: markets } : emptyRow,
     moq ? { label: labels.moq, value: moq } : emptyRow,
+    capability ? { label: labels.capability, value: capability } : emptyRow,
     message ? { label: labels.message, value: message } : emptyRow,
   ];
 

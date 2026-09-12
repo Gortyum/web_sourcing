@@ -10,7 +10,7 @@ interface Props {
 
 const SITE = {
   name: 'Eleni Sourcing',
-  url: 'https://www.elenisourcing.cl',
+  url: 'https://www.elenisourcing.com',
 };
 
 const locale: Locale = (Astro.currentLocale as Locale) ?? 'es';
@@ -20,14 +20,14 @@ const canonical = `${SITE.url}${path}`;
 const ogLocale = isPt ? 'pt_BR' : 'es_CL';
 
 const descEs =
-  'Productos promocionales, merchandising corporativo y regalos empresariales para marcas en Chile. Sourcing, importación y personalización de productos para empresas, eventos y campañas.';
+  'Productos promocionales, merchandising corporativo y regalos empresariales en Chile. Sourcing e importación desde Brasil y otros mercados, personalización y desarrollo de productos.';
 const descPt =
-  'Produtos promocionais, merchandising corporativo e presentes empresariais para marcas no Chile. Sourcing, importação e personalização de produtos para empresas, eventos e campanhas.';
+  'Produtos promocionais, merchandising corporativo e presentes empresariais no Chile. Sourcing e importação do Brasil e de outros mercados, personalização e desenvolvimento de produtos.';
 
 const defaults = {
   title: isPt
-    ? 'Eleni Sourcing — Produtos promocionais para empresas no Chile | Merchandising corporativo'
-    : 'Eleni Sourcing — Productos promocionales para empresas en Chile | Merchandising corporativo',
+    ? 'Produtos Promocionais e Merchandising no Chile | Eleni Sourcing'
+    : 'Productos Promocionales y Merchandising en Chile | Eleni Sourcing',
   description: isPt ? descPt : descEs,
 };
 
@@ -74,16 +74,19 @@ const ogImage = `${SITE.url}/og.svg`;
     <script type="application/ld+json" set:html={JSON.stringify({
       '@context': 'https://schema.org',
       '@type': 'Organization',
-      name: 'Eleni Sourcing',
+      name: 'Eleni Sourcing SpA',
       url: SITE.url,
       logo: `${SITE.url}/favicon.svg`,
+      email: 'eleni@elenisourcing.com',
+      telephone: '+56 9 5105 8444',
       description: defaults.description,
       address: { '@type': 'PostalAddress', addressCountry: 'CL', addressLocality: 'Santiago' },
       contactPoint: {
         '@type': 'ContactPoint',
         contactType: 'sales',
         email: 'eleni@elenisourcing.com',
-        availableLanguage: ['es'],
+        telephone: '+56 9 5105 8444',
+        availableLanguage: ['es', 'pt'],
       },
     })} />
     <script type="application/ld+json" set:html={JSON.stringify({

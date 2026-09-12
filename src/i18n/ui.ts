@@ -34,18 +34,21 @@ function makeDict(l: Locale) {
     },
     hero: {
       eyebrow: one('Productos promocionales · Chile', 'Produtos promocionais · Chile'),
-      title: one('Productos que hacen', 'Produtos que tornam') as string,
-      titleEm: one('visible', 'visível') as string,
-      titleEnd: one('tu marca.', 'a sua marca.') as string,
+      title: one('Productos promocionales para', 'Produtos promocionais para') as string,
+      titleEm: one('empresas', 'empresas') as string,
+      titleEnd: one('en Chile', 'no Chile') as string,
+      tagline: one(
+        'Productos que hacen visible tu marca.',
+        'Produtos que tornam a sua marca visível.'
+      ),
       sub: one(
-        'Soluciones promocionales para empresas, eventos y campañas. Sourcing, importación y personalización de productos con la gestión que tu marca merece.',
-        'Soluções promocionais para empresas, eventos e campanhas. Sourcing, importação e personalização de produtos com a gestão que a sua marca merece.'
+        'Soluciones de merchandising, productos promocionales y regalos corporativos para empresas, campañas y eventos. Buscamos, seleccionamos e importamos productos de fabricantes en Brasil y otros mercados, gestionando la personalización y todo el proceso hasta la entrega en Chile.',
+        'Soluções de merchandising, produtos promocionais e presentes corporativos para empresas, campanhas e eventos. Buscamos, selecionamos e importamos produtos de fabricantes no Brasil e em outros mercados, gerenciando a personalização e todo o processo até a entrega no Chile.'
       ),
       cta: one('Solicitar cotización', 'Solicitar cotação'),
       viewProducts: one('Ver productos', 'Ver produtos'),
       suppliers: one('Para proveedores', 'Para fornecedores'),
-      meta1: one('Desde 10 a 500.000 unidades', 'De 10 a 500.000 unidades'),
-      meta2: one('Personalización propia', 'Personalização própria'),
+      meta1: one('Personalización propia', 'Personalização própria'),
       note: one(
         'El sello de cada producto se imprime con la marca de tu empresa.',
         'O selo de cada produto é aplicado com a marca da sua empresa.'
@@ -267,12 +270,34 @@ function makeDict(l: Locale) {
         one('Botellas y vasos', 'Garrafas e copos'),
         one('Tecnológicos y accesorios', 'Eletrônicos e acessórios'),
         one('Textil y wearables', 'Têxtil e wearables'),
-        one('Empaques y retail', 'Embalagens e retail'),
+        one('Packaging', 'Embalagens'),
+        one('Hogar y lifestyle', 'Casa e lifestyle'),
+        one('Accesorios promocionales', 'Acessórios promocionais'),
         one('Otro', 'Outro'),
       ],
-      fOrigin: one('Origen del producto', 'Origem do produto'),
+      fOrigin: one('¿Desde dónde exportas?', 'De onde você exporta?'),
       selOrigin: one('— Selecciona —', '— Selecione —'),
-      originOptions: [one('China', 'China'), one('India', 'Índia'), one('Chile / local', 'Chile / local'), one('Otro', 'Outro')],
+      originOptions: [
+        one('Brasil', 'Brasil'),
+        one('Otro país de Latinoamérica', 'Outro país da América Latina'),
+        one('Asia', 'Ásia'),
+        one('Europa', 'Europa'),
+        one('Otro', 'Outro'),
+      ],
+      fExport: one('¿Ya exportas?', 'Você já exporta?'),
+      selExport: one('— Selecciona —', '— Selecione —'),
+      exportOptions: [
+        one('Sí, regularmente', 'Sim, regularmente'),
+        one('Sí, ocasionalmente', 'Sim, ocasionalmente'),
+        one('Aún no', 'Ainda não'),
+      ],
+      fMarkets: one('Principales mercados', 'Principais mercados'),
+      marketsPh: one('Ej. Brasil, México, Europa…', 'Ex.: Brasil, México, Europa…'),
+      fCapability: one('Capacidad de producción / personalización', 'Capacidade de produção / personalização'),
+      capabilityPh: one(
+        'Ej. 50.000 unidades/mes, serigrafía, bordado, pack…',
+        'Ex.: 50.000 unidades/mês, serigrafia, bordado, pack…'
+      ),
       fMoq: one('MOQ mínimo', 'MOQ mínimo'),
       moqPh: one('Ej. 500 unidades por SKU', 'Ex.: 500 unidades por SKU'),
       fMsg: one('Mensaje', 'Mensagem'),
