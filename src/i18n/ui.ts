@@ -239,6 +239,82 @@ function makeDict(l: Locale) {
         'Não foi possível enviar o e-mail. Tente novamente ou escreva para hola@elenisourcing.cl.'
       ),
     },
+    sup: {
+      eyebrow: one('Para proveedores', 'Para fornecedores'),
+      title: one(
+        '¿Fabricas o importas? Agreguemos tus productos a nuestro catálogo.',
+        'Você fabrica ou importa? Vamos colocar seus produtos no nosso catálogo.'
+      ),
+      lede: one(
+        'Trabajamos con fábricas e importadores que comparten nuestro estándar de calidad. Cuéntanos qué produce tu empresa y cómo podríamos colaborar.',
+        'Trabalhamos com fábricas e importadores que compartilham o nosso padrão de qualidade. Conte o que a sua empresa produz e como poderíamos colaborar.'
+      ),
+      what: [
+        { label: one('Producto', 'Produto'), text: one('Las categorías que fabricas, importas o distribuyes', 'As categorias que você fabrica, importa ou distribui') },
+        { label: one('Origen', 'Origem'), text: one('Dónde se produce o desde dónde llega al mercado', 'Onde é produzido ou de onde chega ao mercado') },
+        { label: one('Capacidad', 'Capacidade'), text: one('Volúmenes, MOQ y certificaciones si las tienes', 'Volumes, MOQ e certificações, se você tiver') },
+      ],
+      alt: one('¿Prefieres que te contactemos por', 'Prefere que entremos em contato pelo'),
+      wa: one('WhatsApp', 'WhatsApp'),
+      fCompany: one('Empresa', 'Empresa'),
+      fName: one('Nombre de contacto', 'Nome para contato'),
+      fEmail: one('Email', 'E-mail'),
+      fPhone: one('Teléfono', 'Telefone'),
+      fCategory: one('Categorías de producto', 'Categorias de produto'),
+      selCategory: one('— Selecciona las que ofreces —', '— Selecione as que oferece —'),
+      categoryOptions: [
+        one('Papelería y escritura', 'Papelaria e escrita'),
+        one('Botellas y vasos', 'Garrafas e copos'),
+        one('Tecnológicos y accesorios', 'Eletrônicos e acessórios'),
+        one('Textil y wearables', 'Têxtil e wearables'),
+        one('Empaques y retail', 'Embalagens e retail'),
+        one('Otro', 'Outro'),
+      ],
+      fOrigin: one('Origen del producto', 'Origem do produto'),
+      selOrigin: one('— Selecciona —', '— Selecione —'),
+      originOptions: [one('China', 'China'), one('India', 'Índia'), one('Chile / local', 'Chile / local'), one('Otro', 'Outro')],
+      fMoq: one('MOQ mínimo', 'MOQ mínimo'),
+      moqPh: one('Ej. 500 unidades por SKU', 'Ex.: 500 unidades por SKU'),
+      fMsg: one('Mensaje', 'Mensagem'),
+      msgPh: one(
+        'Cuéntanos sobre tu oferta: materiales, capacidades, certificaciones, tiempos…',
+        'Conte sobre a sua oferta: materiais, capacidades, certificações, prazos…'
+      ),
+      submit: one('Enviar postulación', 'Enviar candidatura'),
+      fine: one(
+        'Revisamos cada postulación y respondemos dentro de 5 días hábiles.',
+        'Revisamos cada candidatura e respondemos em até 5 dias úteis.'
+      ),
+      doneTitle: one('Postulación enviada.', 'Candidatura enviada.'),
+      doneText: one(
+        'Gracias por tu interés. Si tu oferta encaja con lo que buscamos, te escribiremos pronto.',
+        'Obrigado pelo interesse. Se a sua oferta combinar com o que buscamos, entraremos em contato em breve.'
+      ),
+      doneNote: one(
+        'Recibirás la respuesta en el correo que indicaste.',
+        'Você receberá a resposta no e-mail informado.'
+      ),
+      sending: one('Enviando…', 'Enviando…'),
+      sendError: one(
+        'No pudimos enviar el correo. Vuelve a intentar o escríbenos a hola@elenisourcing.cl.',
+        'Não foi possível enviar o e-mail. Tente novamente ou escreva para hola@elenisourcing.cl.'
+      ),
+    },
+    contact: {
+      fName: one('Nombre', 'Nome'),
+      fEmail: one('Email', 'E-mail'),
+      fMsg: one('Mensaje', 'Mensagem'),
+      msgPh: one('Cuéntanos en qué podemos ayudarte.', 'Conte-nos como podemos ajudar.'),
+      submit: one('Enviar mensaje', 'Enviar mensagem'),
+      sending: one('Enviando…', 'Enviando…'),
+      sendError: one(
+        'No pudimos enviar el correo. Vuelve a intentar o escríbenos a hola@elenisourcing.cl.',
+        'Não foi possível enviar o e-mail. Tente novamente ou escreva para hola@elenisourcing.cl.'
+      ),
+      doneTitle: one('Mensaje enviado.', 'Mensagem enviada.'),
+      doneText: one('Gracias por escribirnos. Te responderemos a la brevedad.', 'Obrigado por escrever. Responderemos em breve.'),
+      note: one('Respuesta directa por email', 'Resposta direta por e-mail'),
+    },
     foot: {
       blurb: one(
         'Productos promocionales y merchandising corporativo para marcas que quieren destacar. Sourcing, importación, personalización y logística — de la idea al producto.',

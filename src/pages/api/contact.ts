@@ -9,7 +9,7 @@ export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   if (!apiKey) {
-    console.error('[quote] RESEND_API_KEY no configurada (revisa .env)');
+    console.error('[contact] RESEND_API_KEY no configurada (revisa .env)');
     return Response.json({ error: 'not_configured' }, { status: 503 });
   }
 
@@ -17,11 +17,6 @@ export const POST: APIRoute = async ({ request }) => {
   const get = (k: string) => (data.get(k) as string | null)?.trim() ?? '';
   const name = get('name');
   const email = get('email');
-  const company = get('company');
-  const phone = get('phone');
-  const product = get('product');
-  const quantity = get('quantity');
-  const date = get('date');
   const message = get('message');
   const lang = get('lang') === 'pt' ? 'pt' : 'es';
 
@@ -35,29 +30,16 @@ export const POST: APIRoute = async ({ request }) => {
   const labels = {
     name: lang === 'pt' ? 'Nome' : 'Nombre',
     email: 'Email',
-    company: lang === 'pt' ? 'Empresa' : 'Empresa',
-    phone: 'Teléfono',
-    product: lang === 'pt' ? 'Produto' : 'Producto',
-    quantity: lang === 'pt' ? 'Cantidad' : 'Cantidad',
-    date: lang === 'pt' ? 'Tiempo' : 'Tiempo',
-    message: lang === 'pt' ? 'Mensaje' : 'Mensaje',
+    message: lang === 'pt' ? 'Mensagem' : 'Mensaje',
   };
-
-  const subject =
-    `${lang === 'pt' ? 'Cotação' : 'Cotización'}` +
-    (product ? ` · ${product}` : '') +
-    (company ? ` · ${company}` : '');
 
   const rows = [
     { label: labels.name, value: name },
     { label: labels.email, value: email },
-    company ? { label: labels.company, value: company } : emptyRow,
-    phone ? { label: labels.phone, value: phone } : emptyRow,
-    product ? { label: labels.product, value: product } : emptyRow,
-    quantity ? { label: labels.quantity, value: quantity } : emptyRow,
-    date ? { label: labels.date, value: date } : emptyRow,
     message ? { label: labels.message, value: message } : emptyRow,
   ];
+
+  const subject = `${lang === 'pt' ? 'Mensagem de contato' : 'Mensaje de contacto'} · ${name}`;
 
   try {
     const err = await sendMail({
@@ -70,13 +52,13 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     if (err) {
-      console.error('[quote] Resend error:', err);
+      console.error('[contact] Resend error:', err);
       return Response.json({ error: 'send_failed', detail: err.message }, { status: 502 });
     }
 
     return Response.json({ ok: true });
   } catch (e) {
-    console.error('[quote] exception:', e);
+    console.error('[contact] exception:', e);
     return Response.json({ error: 'send_failed' }, { status: 502 });
   }
 };

@@ -1,0 +1,363 @@
+---
+import { dicts, type Locale } from '../i18n/ui.ts';
+import ArrowIcon from './ArrowIcon.astro';
+
+const locale = (Astro.currentLocale as Locale) ?? 'es';
+const t = dicts[locale];
+---
+
+<section class="sup" id="proveedores" aria-labelledby="sup-title">
+  <div class="shell sup__grid">
+    <div class="sup__intro">
+      <p class="eyebrow reveal">{t.sup.eyebrow}</p>
+      <h2 class="sup__title reveal" id="sup-title" style="--rd:.1s">{t.sup.title}</h2>
+      <p class="sup__lede reveal" style="--rd:.2s">{t.sup.lede}</p>
+      <ul class="sup__what reveal" style="--rd:.3s">
+        {t.sup.what.map((w) => (
+          <li><span class="mono">{w.label}</span>{w.text}</li>
+        ))}
+      </ul>
+      <p class="sup__alt mono reveal" style="--rd:.4s">
+        {t.sup.alt} <a href="https://wa.me/56900000000" rel="noopener">{t.sup.wa}</a>
+      </p>
+    </div>
+
+    <form class="sup__form reveal" style="--rd:.25s" id="supplierForm" novalidate>
+      <input type="hidden" name="lang" value={locale} />
+      <div class="sup__fields">
+        <label class="field field--half">
+          <span>{t.sup.fCompany}</span>
+          <input type="text" name="company" autocomplete="organization" required />
+        </label>
+        <label class="field field--half">
+          <span>{t.sup.fName}</span>
+          <input type="text" name="name" autocomplete="name" required />
+        </label>
+        <label class="field field--half">
+          <span>{t.sup.fEmail}</span>
+          <input type="email" name="email" autocomplete="email" required />
+        </label>
+        <label class="field field--half">
+          <span>{t.sup.fPhone}</span>
+          <input type="tel" name="phone" autocomplete="tel" />
+        </label>
+        <label class="field">
+          <span>{t.sup.fCategory}</span>
+          <select name="category">
+            <option value="">{t.sup.selCategory}</option>
+            {t.sup.categoryOptions.map((c) => (
+              <option>{c}</option>
+            ))}
+          </select>
+        </label>
+        <div class="field-row">
+          <label class="field">
+            <span>{t.sup.fOrigin}</span>
+            <select name="origin">
+              <option value="">{t.sup.selOrigin}</option>
+              {t.sup.originOptions.map((o) => (
+                <option>{o}</option>
+              ))}
+            </select>
+          </label>
+          <label class="field">
+            <span>{t.sup.fMoq}</span>
+            <input type="text" name="moq" placeholder={t.sup.moqPh} />
+          </label>
+        </div>
+        <label class="field">
+          <span>{t.sup.fMsg}</span>
+          <textarea name="message" rows={4} placeholder={t.sup.msgPh}></textarea>
+        </label>
+      </div>
+
+      <div class="sup__actions">
+        <button class="btn btn--primary btn--big" type="submit" id="supSubmit" data-submit={t.sup.submit} data-sending={t.sup.sending}>
+          <span id="supSubmitLabel">{t.sup.submit}</span> <ArrowIcon n={17} />
+        </button>
+        <p class="sup__fine mono" id="supFine">{t.sup.fine}</p>
+      </div>
+
+      <p class="sup__error" id="supError" role="alert" hidden>{t.sup.sendError}</p>
+
+      <div class="sup__done" id="supDone" hidden>
+        <span class="sup__done-mark" aria-hidden="true"></span>
+        <h3 class="sup__done-title">{t.sup.doneTitle}</h3>
+        <p class="sup__done-text">{t.sup.doneText}</p>
+        <p class="sup__done-note mono">{t.sup.doneNote}</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<style>
+  .sup {
+    background: var(--carbon);
+    color: var(--bone);
+    padding-block: var(--sec-y);
+    border-top: 1px solid var(--line-d);
+  }
+
+  .sup__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  .sup__title {
+    margin-top: 1.2rem;
+  }
+
+  .sup__lede {
+    margin: 1.3rem 0 0;
+    font-family: var(--font-display);
+    font-weight: 390;
+    font-size: clamp(1.05rem, 1.5vw, 1.22rem);
+    line-height: 1.5;
+    max-width: 30rem;
+    color: var(--mist-2);
+  }
+
+  .sup__what {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+  }
+
+  .sup__what li {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line-d);
+    font-size: 0.92rem;
+    color: var(--mist-2);
+  }
+
+  .sup__what .mono {
+    color: var(--pine-hi);
+  }
+
+  .sup__alt {
+    margin-top: 1.6rem;
+    color: var(--mist-2);
+    letter-spacing: 0.06em;
+    text-transform: none;
+  }
+
+  .sup__alt a {
+    color: var(--pine-hi);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+  }
+
+  .sup__form {
+    background: var(--bone);
+    color: var(--carbon);
+    border: 1px solid var(--line-l);
+    padding: clamp(1.6rem, 3.5vw, 2.8rem);
+    position: relative;
+  }
+
+  .sup__fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.1rem;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    flex: 1 1 100%;
+  }
+
+  .field--half {
+    flex: 1 1 calc(50% - 0.6rem);
+  }
+
+  .field span,
+  .field label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mist);
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    appearance: none;
+    border: 1px solid var(--line-l);
+    border-radius: 0;
+    background: #fff;
+    padding: 0.85rem 0.9rem;
+    font-size: 0.95rem;
+    color: var(--carbon);
+    transition: border-color 0.25s var(--ease);
+  }
+
+  .field textarea {
+    resize: vertical;
+    min-height: 110px;
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-color: var(--pine);
+  }
+
+  select {
+    background-image: linear-gradient(45deg, transparent 50%, var(--carbon) 50%),
+      linear-gradient(135deg, var(--carbon) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+  }
+
+  .field-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.1rem;
+    width: 100%;
+  }
+
+  .field-row .field {
+    flex: 1 1 calc(50% - 0.6rem);
+  }
+
+  .sup__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    margin-top: 1.8rem;
+    padding-top: 1.6rem;
+    border-top: 1px solid var(--line-l);
+  }
+
+  .sup__fine {
+    color: var(--mist);
+    letter-spacing: 0.08em;
+  }
+
+  .sup__error {
+    margin: 1rem 0 0;
+    color: #9c3f1e;
+    font-size: 0.92rem;
+  }
+
+  .btn[disabled] {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  .sup__done {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    text-align: center;
+    padding: 2rem;
+    background: var(--bone);
+    color: var(--carbon);
+  }
+
+  .sup__done[hidden],
+  .sup__error[hidden] {
+    display: none;
+  }
+
+  .sup__done-mark {
+    width: 54px;
+    height: 54px;
+    border: 2px solid var(--pine);
+    border-radius: 50%;
+    position: relative;
+  }
+
+  .sup__done-mark::before {
+    content: '';
+    position: absolute;
+    inset: 14px;
+    background: var(--pine);
+    border-radius: 50%;
+  }
+
+  .sup__done-title {
+    font-size: 1.9rem;
+  }
+
+  .sup__done-text {
+    max-width: 30rem;
+    color: var(--mist);
+  }
+
+  .sup__done-note {
+    color: var(--mist);
+    letter-spacing: 0.08em;
+  }
+
+  @media (min-width: 1000px) {
+    .sup__grid {
+      grid-template-columns: 0.8fr 1.2fr;
+    }
+
+    .sup__intro {
+      position: sticky;
+      top: calc(var(--nav-h) + 2.5rem);
+      align-self: start;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .field--half,
+    .field-row .field {
+      flex-basis: 100%;
+    }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('supplierForm') as HTMLFormElement | null;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    const done = document.getElementById('supDone') as HTMLElement | null;
+    const err = document.getElementById('supError') as HTMLElement | null;
+    const btn = document.getElementById('supSubmit') as HTMLButtonElement | null;
+    const label = document.getElementById('supSubmitLabel') as HTMLSpanElement | null;
+    const origLabel = btn?.dataset.submit || '';
+
+    if (done) done.hidden = true;
+    if (err) err.hidden = true;
+    if (label && btn?.dataset.sending) label.textContent = btn.dataset.sending;
+    if (btn) btn.disabled = true;
+
+    try {
+      const res = await fetch('/api/supplier', { method: 'POST', body: new FormData(form) });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (done) done.hidden = false;
+      form.reset();
+    } catch {
+      if (err) err.hidden = false;
+    } finally {
+      if (btn) btn.disabled = false;
+      if (label && origLabel) label.textContent = origLabel;
+    }
+  });
+</script>

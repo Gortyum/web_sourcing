@@ -2,7 +2,7 @@
 import { dicts, productDisplay, type Locale } from '../i18n/ui.ts';
 import type { CollectionEntry } from 'astro:content';
 import ArrowIcon from './ArrowIcon.astro';
-import ProductFicha from './ProductFicha.astro';
+import ProductArt from './ProductArt.astro';
 
 interface Props {
   products: CollectionEntry<'products'>[];
@@ -49,62 +49,20 @@ const pad = (n: number) => String(n).padStart(2, '0');
         const disp = productDisplay(p.data, locale);
         return (
           <article
-            class={`cue__slide${i === 0 ? ' is-active' : ''}`}
+            class={`cue__photo${i === 0 ? ' is-active' : ''}`}
             id={`cue-slide-${p.data.slug}`}
             data-index={i}
-            aria-label={`${i + 1} ${t.cue.of} ${total}`}
-            aria-hidden={i !== 0}
+            aria-label={disp.name}
           >
-            <div class="shell cue__inner">
-              <div class="cue__art">
-                <ProductFicha
-                  art={p.data.art}
-                  uid={`prod-${p.data.slug}`}
-                  idx={pad(i + 1)}
-                  name={disp.name}
-                  sku={p.data.sku}
-                  className="ficha--slide"
-                />
-              </div>
-
-              <div class="cue__info">
-                <p class="cue__cat mono">{disp.category}</p>
-                <h3 class="cue__name">{disp.name}</h3>
-                <p class="cue__desc">{disp.description}</p>
-
-                <dl class="cue__spec">
-                  <div>
-                    <dt>SKU</dt>
-                    <dd>{p.data.sku}</dd>
-                  </div>
-                  <div>
-                    <dt>{t.cue.specMaterial}</dt>
-                    <dd>{disp.material}</dd>
-                  </div>
-                  <div>
-                    <dt>{t.cue.specMoq}</dt>
-                    <dd>{p.data.moq}</dd>
-                  </div>
-                  <div>
-                    <dt>{t.cue.specOrigin}</dt>
-                    <dd>{disp.origin}</dd>
-                  </div>
-                </dl>
-
-                <p class="cue__cust mono">
-                  <span>{t.cue.cust}</span>
-                  {disp.customization}
-                </p>
-
-                <a
-                  class="btn btn--outline cue__cta"
-                  href="#formulario"
-                  data-quote-product={disp.name}
-                >
-                  {t.cue.quote} <ArrowIcon n={15} />
-                </a>
-              </div>
+            <div class="cue__photo-art">
+              <ProductArt variant={p.data.art} uid={`deck-${p.data.slug}`} />
             </div>
+            <p class="cue__cap">
+              <a href="#formulario" data-quote-product={disp.name}>
+                {disp.name}
+              </a>
+              <span class="cue__fig mono">{pad(i + 1)}</span>
+            </p>
           </article>
         );
       })}
@@ -205,10 +163,14 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
   .cue__viewport {
     overflow: hidden;
+    padding-bottom: clamp(2rem, 4vw, 3rem);
   }
 
   .cue__track {
     display: flex;
+    align-items: stretch;
+    position: relative;
+    gap: clamp(1.6rem, 3.5vw, 3rem);
     transition: transform 0.75s var(--ease);
   }
 
@@ -216,90 +178,62 @@ const pad = (n: number) => String(n).padStart(2, '0');
     transition: none;
   }
 
-  .cue__slide {
-    flex: 0 0 100%;
-    min-width: 0;
+  .cue__photo {
+    position: relative;
+    flex: 0 0 auto;
+    width: clamp(17rem, 30vw, 29rem);
   }
 
-  .cue__inner {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: clamp(2rem, 5vw, 4rem);
-    align-items: start;
-    padding-block: 0 2rem;
+  .cue__photo-art {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--line-d);
+    background: var(--line-d);
+    aspect-ratio: 4 / 5;
   }
 
-  .cue__art {
-    min-width: 0;
-  }
-
-  .cue__info .cue__desc {
-    margin-top: 1.2rem;
-    max-width: 32rem;
-  }
-
-  .cue__cat {
-    color: var(--pine-hi);
-    letter-spacing: 0.22em;
-  }
-
-  .cue__name {
-    margin-top: 1rem;
-    font-size: clamp(2rem, 4vw, 3.2rem);
-    max-width: 14ch;
-  }
-
-  .cue__spec {
-    margin: 2rem 0 0;
-    padding: 0;
-    border-top: 1px solid var(--line-d);
-    width: 100%;
-  }
-
-  .cue__spec > div {
-    display: grid;
-    grid-template-columns: 7.5rem 1fr;
-    gap: 1rem;
-    padding: 0.95rem 0;
-    border-bottom: 1px solid var(--line-d);
-    align-items: baseline;
-  }
-
-  .cue__spec dt {
-    color: var(--mist-2);
-    letter-spacing: 0.14em;
-  }
-
-  .cue__spec dd {
-    margin: 0;
-    font-size: 0.95rem;
-  }
-
-  .cue__cust {
-    margin: 1.6rem 0 0;
-    color: var(--mist-2);
-    letter-spacing: 0.06em;
-    text-transform: none;
-    max-width: 34rem;
-  }
-
-  .cue__cust span {
+  .cue__photo-art :global(svg) {
     display: block;
-    color: var(--pine-hi);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    margin-bottom: 0.4rem;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
-  .cue__cta {
-    margin-top: 2rem;
+  .cue__cap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 0.95rem 0.2rem 0;
+  }
+
+  .cue__cap a {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--bone);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 0.25s var(--ease), border-bottom-color 0.25s var(--ease);
+  }
+
+  .cue__cap a:hover {
+    color: var(--pine-hi);
+    border-bottom-color: currentColor;
+  }
+
+  .cue__fig {
+    color: var(--mist-2);
+    letter-spacing: 0.2em;
+    font-size: 0.78rem;
+    white-space: nowrap;
   }
 
   .cue__progress {
     position: relative;
     height: 1px;
     background: var(--line-d);
-    margin: clamp(1rem, 2.5vw, 2rem) 0 0;
+    margin: 0;
   }
 
   .cue__progress-fill {
@@ -311,16 +245,13 @@ const pad = (n: number) => String(n).padStart(2, '0');
     transition: width 0.75s var(--ease);
   }
 
-  @media (min-width: 900px) {
-    .cue__inner {
-      grid-template-columns: 0.92fr 1fr;
-      align-items: center;
+  @media (max-width: 780px) {
+    .cue__track {
+      gap: clamp(1rem, 4vw, 1.6rem);
     }
 
-    .cue__info {
-      display: grid;
-      justify-items: start;
-      padding-left: clamp(0rem, 3vw, 3rem);
+    .cue__photo {
+      width: clamp(15rem, 82vw, 22rem);
     }
   }
 
@@ -336,7 +267,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
 <script>
   const track = document.getElementById('cueTrack');
-  const slides = Array.from(track?.querySelectorAll<HTMLElement>('.cue__slide') ?? []);
+  const viewport = document.getElementById('cueViewport');
+  const slides = Array.from(track?.querySelectorAll<HTMLElement>('.cue__photo') ?? []);
   const counter = document.querySelector<HTMLElement>('[data-counter-current]');
   const progressFill = document.querySelector<HTMLElement>('[data-counter-progress-fill]');
   const prevBtn = document.querySelector<HTMLButtonElement>('[data-nav="prev"]');
@@ -345,16 +277,26 @@ const pad = (n: number) => String(n).padStart(2, '0');
   const total = slides.length;
   let index = 0;
 
+  const readStep = () => {
+    if (!slides.length) return 0;
+    if (slides.length > 1) return slides[1].offsetLeft - slides[0].offsetLeft;
+    return slides[0].offsetWidth;
+  };
+
+  const maxTranslate = () => {
+    if (!viewport || !slides.length) return 0;
+    const step = readStep();
+    const last = slides[slides.length - 1];
+    const right = step * (slides.length - 1) + last.offsetWidth;
+    return Math.max(0, right - viewport.clientWidth);
+  };
+
   const update = (noTransition = false) => {
     if (noTransition) track?.classList.add('no-trans');
-    if (track) track.style.transform = `translateX(-${index * 100}%)`;
+    if (track) track.style.transform = `translateX(-${Math.min(index * readStep(), maxTranslate())}px)`;
     if (counter) counter.textContent = String(index + 1).padStart(2, '0');
     if (progressFill) progressFill.style.width = `${((index + 1) / total) * 100}%`;
-    slides.forEach((s, i) => {
-      const active = i === index;
-      s.classList.toggle('is-active', active);
-      s.setAttribute('aria-hidden', String(!active));
-    });
+    slides.forEach((s, i) => s.classList.toggle('is-active', i === index));
     if (prevBtn) prevBtn.disabled = index === 0;
     if (nextBtn) nextBtn.disabled = index === total - 1;
     if (noTransition) requestAnimationFrame(() => track?.classList.remove('no-trans'));
@@ -381,7 +323,6 @@ const pad = (n: number) => String(n).padStart(2, '0');
     }
   });
 
-  const viewport = document.getElementById('cueViewport');
   let startX = 0;
   let deltaX = 0;
   viewport?.addEventListener('touchstart', (e) => {
@@ -395,6 +336,10 @@ const pad = (n: number) => String(n).padStart(2, '0');
     const th = 60;
     if (Math.abs(deltaX) > th) go(index + (deltaX < 0 ? 1 : -1));
   }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    if (track) track.style.transform = `translateX(-${Math.min(index * readStep(), maxTranslate())}px)`;
+  });
 
   update(true);
 </script>

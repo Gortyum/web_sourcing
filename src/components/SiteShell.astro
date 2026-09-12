@@ -8,6 +8,7 @@ import Applications from './Applications.astro';
 import About from './About.astro';
 import CTASection from './CTASection.astro';
 import QuoteForm from './QuoteForm.astro';
+import SupplierForm from './SupplierForm.astro';
 import Footer from './Footer.astro';
 import type { CollectionEntry } from 'astro:content';
 
@@ -29,6 +30,7 @@ const { products } = Astro.props;
   <About />
   <CTASection />
   <QuoteForm products={products} />
+  <SupplierForm />
 </main>
 
 <Footer />

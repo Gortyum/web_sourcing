@@ -9,23 +9,23 @@ export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
   if (!apiKey) {
-    console.error('[quote] RESEND_API_KEY no configurada (revisa .env)');
+    console.error('[supplier] RESEND_API_KEY no configurada (revisa .env)');
     return Response.json({ error: 'not_configured' }, { status: 503 });
   }
 
   const data = await request.formData();
   const get = (k: string) => (data.get(k) as string | null)?.trim() ?? '';
+  const company = get('company');
   const name = get('name');
   const email = get('email');
-  const company = get('company');
   const phone = get('phone');
-  const product = get('product');
-  const quantity = get('quantity');
-  const date = get('date');
+  const category = get('category');
+  const origin = get('origin');
+  const moq = get('moq');
   const message = get('message');
   const lang = get('lang') === 'pt' ? 'pt' : 'es';
 
-  if (!name || !email) {
+  if (!company || !name || !email) {
     return Response.json({ error: 'required' }, { status: 400 });
   }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -33,50 +33,47 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const labels = {
-    name: lang === 'pt' ? 'Nome' : 'Nombre',
-    email: 'Email',
     company: lang === 'pt' ? 'Empresa' : 'Empresa',
-    phone: 'Teléfono',
-    product: lang === 'pt' ? 'Produto' : 'Producto',
-    quantity: lang === 'pt' ? 'Cantidad' : 'Cantidad',
-    date: lang === 'pt' ? 'Tiempo' : 'Tiempo',
-    message: lang === 'pt' ? 'Mensaje' : 'Mensaje',
+    name: lang === 'pt' ? 'Contato' : 'Contacto',
+    email: 'Email',
+    phone: lang === 'pt' ? 'Telefone' : 'Teléfono',
+    category: lang === 'pt' ? 'Categorias' : 'Categorías de producto',
+    origin: lang === 'pt' ? 'Origem' : 'Origen',
+    moq: lang === 'pt' ? 'MOQ mínimo' : 'MOQ mínimo',
+    message: lang === 'pt' ? 'Mensagem' : 'Mensaje',
   };
 
-  const subject =
-    `${lang === 'pt' ? 'Cotação' : 'Cotización'}` +
-    (product ? ` · ${product}` : '') +
-    (company ? ` · ${company}` : '');
-
   const rows = [
+    { label: labels.company, value: company },
     { label: labels.name, value: name },
     { label: labels.email, value: email },
-    company ? { label: labels.company, value: company } : emptyRow,
     phone ? { label: labels.phone, value: phone } : emptyRow,
-    product ? { label: labels.product, value: product } : emptyRow,
-    quantity ? { label: labels.quantity, value: quantity } : emptyRow,
-    date ? { label: labels.date, value: date } : emptyRow,
+    category ? { label: labels.category, value: category } : emptyRow,
+    origin ? { label: labels.origin, value: origin } : emptyRow,
+    moq ? { label: labels.moq, value: moq } : emptyRow,
     message ? { label: labels.message, value: message } : emptyRow,
   ];
+
+  const subject = `Proveedor · ${company}`;
 
   try {
     const err = await sendMail({
       apiKey,
       from: (import.meta.env.RESEND_FROM as string | undefined) || 'Eleni Sourcing <onboarding@resend.dev>',
-      to: (import.meta.env.RESEND_TO as string | undefined) || process.env.RESEND_TO || 'hola@elenisourcing.cl',
+      to: (import.meta.env.RESEND_TO_SUPPLIERS as string | undefined) || process.env.RESEND_TO_SUPPLIERS || 'proveedores@elenisourcing.cl',
       reply_to: email,
       subject,
       rows,
     });
 
     if (err) {
-      console.error('[quote] Resend error:', err);
+      console.error('[supplier] Resend error:', err);
       return Response.json({ error: 'send_failed', detail: err.message }, { status: 502 });
     }
 
     return Response.json({ ok: true });
   } catch (e) {
-    console.error('[quote] exception:', e);
+    console.error('[supplier] exception:', e);
     return Response.json({ error: 'send_failed' }, { status: 502 });
   }
 };

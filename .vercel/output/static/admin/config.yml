@@ -1,0 +1,91 @@
+# Decap CMS — Eleni Sourcing
+# Colección "productos": se edita la vitrina mensual sin tocar el frontend.
+# Los cambios se guardan como JSON en /src/content/products y el sitio
+# se reconstruye automáticamente (CI / GitHub).
+
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+
+media_folder: 'public/uploads'
+public_folder: '/uploads'
+
+collections:
+  - name: productos
+    label: 'Selección del mes'
+    label_singular: 'producto'
+    folder: 'src/content/products'
+    create: true
+    delete: true
+    format: json
+    description: >-
+      Productos destacados que se muestran en la vitrina. Marca "destacado"
+      y actívalo para que aparezca en la web.
+    fields:
+      - { name: id, label: 'ID interno', widget: string }
+      - name: name
+        label: 'Nombre (ES)'
+        widget: string
+        hint: 'Nombre del producto en español'
+      - { name: slug, label: 'URL (slug)', widget: string }
+      - { name: description, label: 'Descripción corta (ES)', widget: text }
+      - { name: sku, label: 'SKU', widget: string }
+      - { name: category, label: 'Categoría (ES)', widget: string }
+      - { name: material, label: 'Material (ES)', widget: string }
+      - { name: moq, label: 'Cantidad mínima', widget: string, hint: 'Ej.: 60 unidades' }
+      - name: customization
+        label: 'Personalización (ES)'
+        widget: string
+        hint: 'Técnicas y colores disponibles para el branding'
+      - name: origin
+        label: 'Origen (ES)'
+        widget: string
+        hint: 'País / región de importación'
+      - name: name_pt
+        label: 'Nome (PT)'
+        widget: string
+        required: false
+        hint: 'Nome do produto em português'
+      - name: description_pt
+        label: 'Descrição curta (PT)'
+        widget: text
+        required: false
+      - name: category_pt
+        label: 'Categoria (PT)'
+        widget: string
+        required: false
+      - name: material_pt
+        label: 'Material (PT)'
+        widget: string
+        required: false
+      - name: customization_pt
+        label: 'Personalização (PT)'
+        widget: string
+        required: false
+      - name: origin_pt
+        label: 'Origem (PT)'
+        widget: string
+        required: false
+      - {
+          name: art,
+          label: 'Ilustración de la ficha',
+          widget: select,
+          options:
+            - { label: 'Botella térmica', value: bottle }
+            - { label: 'Bolso tote', value: tote }
+            - { label: 'Cuaderno', value: notebook }
+            - { label: 'Taza de cerámica', value: mug }
+            - { label: 'Gorra', value: cap }
+            - { label: 'Kit corporativo', value: kit },
+          hint: 'Cuando haya fotografía real, reemplaza esta opción por la imagen.'
+        }
+      - {
+          name: featured,
+          label: 'Destacado en la vitrina',
+          widget: boolean,
+          default: true,
+        }
+      - { name: active, label: 'Activo', widget: boolean, default: true }
+      - { name: display_order, label: 'Orden de aparición', widget: number, value_type: int }

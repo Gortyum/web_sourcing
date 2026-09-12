@@ -1,14 +1,9 @@
 ---
-import { dicts, productDisplay, type Locale, type Product } from '../i18n/ui.ts';
-import { getCollection } from 'astro:content';
+import { dicts, type Locale } from '../i18n/ui.ts';
 import ArrowIcon from './ArrowIcon.astro';
-import ProductFicha from './ProductFicha.astro';
 
 const locale = (Astro.currentLocale as Locale) ?? 'es';
 const t = dicts[locale];
-
-const termoRaw = (await getCollection('products', ({ data }) => data.slug === 'botella-termica-500'))[0];
-const termo = productDisplay(termoRaw.data as Product, locale);
 
 const dateLabel = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'es-CL', {
   month: 'long',
@@ -46,7 +41,7 @@ const tokens: Token[] = [
         <a class="btn btn--primary btn--big" href="#formulario">
           {t.hero.cta} <ArrowIcon n={17} />
         </a>
-        <a class="btn btn--outline btn--big" href="mailto:proveedores@elenisourcing.cl" target="_blank" rel="noopener">
+        <a class="btn btn--outline btn--big" href="#proveedores">
           {t.hero.suppliers}
         </a>
         <a class="btn btn--text" href="#productos">
@@ -60,17 +55,32 @@ const tokens: Token[] = [
     </div>
 
     <div class="hero__art reveal" style="--rd:.4s">
-      <ProductFicha
-        art="bottle"
-        uid="hero-termo"
-        idx="01"
-        name={termo.name}
-        sku="ET-TERMO-500"
-        className="ficha--hero"
-      />
-      <aside class="hero__note mono">
-        {t.hero.note}
-      </aside>
+      <form class="hform" id="contactForm" novalidate>
+        <input type="hidden" name="lang" value={locale} />
+        <label class="hform__field">
+          <span>{t.contact.fName}</span>
+          <input type="text" name="name" autocomplete="name" required />
+        </label>
+        <label class="hform__field">
+          <span>{t.contact.fEmail}</span>
+          <input type="email" name="email" autocomplete="email" required />
+        </label>
+        <label class="hform__field">
+          <span>{t.contact.fMsg}</span>
+          <textarea name="message" rows={4} placeholder={t.contact.msgPh}></textarea>
+        </label>
+        <button class="btn btn--primary btn--big hform__btn" type="submit" id="cFormSubmit" data-submit={t.contact.submit} data-sending={t.contact.sending}>
+          <span id="cFormSubmitLabel">{t.contact.submit}</span> <ArrowIcon n={17} />
+        </button>
+        <p class="hform__error" id="cFormError" role="alert" hidden>{t.contact.sendError}</p>
+        <p class="hform__done" id="cFormDone" hidden>
+          <span class="hform__done-title">{t.contact.doneTitle}</span>
+          <span>{t.contact.doneText}</span>
+        </p>
+        <p class="hform__note mono">
+          {t.contact.note} <a href="mailto:hola@elenisourcing.cl">hola@elenisourcing.cl</a>
+        </p>
+      </form>
     </div>
   </div>
 
@@ -173,13 +183,98 @@ const tokens: Token[] = [
     min-width: 0;
   }
 
-  .hero__note {
-    margin: 1.1rem 0 0;
-    max-width: 24rem;
-    color: var(--mist-2);
+  .hform {
+    background: var(--bone);
+    color: var(--carbon);
+    border: 1px solid var(--line-d);
+    padding: clamp(1.6rem, 3vw, 2.6rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  .hform__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  .hform__field span {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mist);
+  }
+
+  .hform input,
+  .hform textarea {
+    width: 100%;
+    border: 1px solid var(--line-l);
+    border-radius: 0;
+    background: #fff;
+    padding: 0.85rem 0.9rem;
+    font-size: 0.95rem;
+    color: var(--carbon);
+    transition: border-color 0.25s var(--ease);
+  }
+
+  .hform textarea {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  .hform input:focus,
+  .hform textarea:focus {
+    outline: none;
+    border-color: var(--pine);
+  }
+
+  .hform__btn {
+    align-self: flex-start;
+    margin-top: 0.2rem;
+  }
+
+  .hform__error {
+    margin: 0;
+    color: #9c3f1e;
+    font-size: 0.88rem;
+  }
+
+  .hform__error[hidden],
+  .hform__done[hidden] {
+    display: none;
+  }
+
+  .hform__done {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-size: 0.95rem;
+    color: var(--mist);
+    border-top: 1px solid var(--line-l);
+    padding-top: 1rem;
+  }
+
+  .hform__done-title {
+    color: var(--pine);
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+
+  .hform__note {
+    margin: 0.2rem 0 0;
+    color: var(--mist);
     letter-spacing: 0.06em;
     text-transform: none;
     font-size: 0.72rem;
+  }
+
+  .hform__note a {
+    color: var(--pine);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
   }
 
   .hero__foot-meta {
@@ -228,4 +323,37 @@ const tokens: Token[] = [
     }
     setTimeout(arm, 2200);
   }
+
+  const cform = document.getElementById('contactForm') as HTMLFormElement | null;
+
+  cform?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!cform.checkValidity()) {
+      cform.reportValidity();
+      return;
+    }
+
+    const done = document.getElementById('cFormDone') as HTMLElement | null;
+    const err = document.getElementById('cFormError') as HTMLElement | null;
+    const btn = document.getElementById('cFormSubmit') as HTMLButtonElement | null;
+    const label = document.getElementById('cFormSubmitLabel') as HTMLSpanElement | null;
+    const origLabel = btn?.dataset.submit || '';
+
+    if (done) done.hidden = true;
+    if (err) err.hidden = true;
+    if (label && btn?.dataset.sending) label.textContent = btn.dataset.sending;
+    if (btn) btn.disabled = true;
+
+    try {
+      const res = await fetch('/api/contact', { method: 'POST', body: new FormData(cform) });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (done) done.hidden = false;
+      cform.reset();
+    } catch {
+      if (err) err.hidden = false;
+    } finally {
+      if (btn) btn.disabled = false;
+      if (label && origLabel) label.textContent = origLabel;
+    }
+  });
 </script>
