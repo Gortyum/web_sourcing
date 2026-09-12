@@ -45,7 +45,7 @@ export const POST: APIRoute = async ({ request }) => {
     const err = await sendMail({
       apiKey,
       from: (import.meta.env.RESEND_FROM as string | undefined) || 'Eleni Sourcing <onboarding@resend.dev>',
-      to: (import.meta.env.RESEND_TO as string | undefined) || process.env.RESEND_TO || 'hola@elenisourcing.cl',
+      to: (import.meta.env.RESEND_TO as string | undefined) || process.env.RESEND_TO || 'eleni@elenisourcing.com',
       reply_to: email,
       subject,
       rows,

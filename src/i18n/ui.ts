@@ -235,8 +235,8 @@ function makeDict(l: Locale) {
       ),
       sending: one('Enviando…', 'Enviando…'),
       sendError: one(
-        'No pudimos enviar el correo. Vuelve a intentar o escríbenos a hola@elenisourcing.cl.',
-        'Não foi possível enviar o e-mail. Tente novamente ou escreva para hola@elenisourcing.cl.'
+        'No pudimos enviar el correo. Vuelve a intentar o escríbenos a eleni@elenisourcing.com.',
+        'Não foi possível enviar o e-mail. Tente novamente ou escreva para eleni@elenisourcing.com.'
       ),
     },
     sup: {
@@ -296,8 +296,8 @@ function makeDict(l: Locale) {
       ),
       sending: one('Enviando…', 'Enviando…'),
       sendError: one(
-        'No pudimos enviar el correo. Vuelve a intentar o escríbenos a hola@elenisourcing.cl.',
-        'Não foi possível enviar o e-mail. Tente novamente ou escreva para hola@elenisourcing.cl.'
+        'No pudimos enviar el correo. Vuelve a intentar o escríbenos a eleni@elenisourcing.com.',
+        'Não foi possível enviar o e-mail. Tente novamente ou escreva para eleni@elenisourcing.com.'
       ),
     },
     contact: {
@@ -308,8 +308,8 @@ function makeDict(l: Locale) {
       submit: one('Enviar mensaje', 'Enviar mensagem'),
       sending: one('Enviando…', 'Enviando…'),
       sendError: one(
-        'No pudimos enviar el correo. Vuelve a intentar o escríbenos a hola@elenisourcing.cl.',
-        'Não foi possível enviar o e-mail. Tente novamente ou escreva para hola@elenisourcing.cl.'
+        'No pudimos enviar el correo. Vuelve a intentar o escríbenos a eleni@elenisourcing.com.',
+        'Não foi possível enviar o e-mail. Tente novamente ou escreva para eleni@elenisourcing.com.'
       ),
       doneTitle: one('Mensaje enviado.', 'Mensagem enviada.'),
       doneText: one('Gracias por escribirnos. Te responderemos a la brevedad.', 'Obrigado por escrever. Responderemos em breve.'),
