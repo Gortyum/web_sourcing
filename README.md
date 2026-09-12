@@ -95,8 +95,3 @@ En produccion, configura las mismas variables en **Vercel → Settings → Envir
 3. Ajustes recomendados en el proyecto: Framework Preset `Astro`, Build `astro build`, Node 20+.
 4. Tras cada push, Vercel despliega automaticamente; recuerda que un cambio de variables de entorno solo aplica a deployments nuevos.
 
-## Contacto
-
-- Web: https://www.elenisourcing.com/
-- Correo: eleni@elenisourcing.com
-- WhatsApp: +56 9 5105 8444
