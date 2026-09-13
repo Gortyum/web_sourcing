@@ -47,9 +47,7 @@ const tokens: Token[] = [
         <a class="btn btn--outline btn--big" href="#proveedores">
           {t.hero.suppliers}
         </a>
-        <a class="btn btn--text" href="#productos">
-          {t.hero.viewProducts} <ArrowIcon dir="down" n={16} />
-        </a>
+        <p class="hero__value">{t.hero.value}</p>
       </div>
       <p class="hero__meta mono reveal" style="--rd:.6s">
         <span>{t.hero.meta1}</span>
@@ -190,6 +188,17 @@ const tokens: Token[] = [
     margin: 2.2rem 0 0;
     color: var(--mist-2);
     letter-spacing: 0.16em;
+  }
+
+  .hero__value {
+    flex: 1 1 100%;
+    margin: 0.4rem 0 0;
+    max-width: 34rem;
+    font-family: var(--font-display);
+    font-weight: 380;
+    font-size: clamp(1.02rem, 1.6vw, 1.2rem);
+    line-height: 1.5;
+    color: var(--pine-hi);
   }
 
   .hero__art {

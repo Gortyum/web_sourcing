@@ -1,13 +1,7 @@
 ---
-import type { CollectionEntry } from 'astro:content';
-import { dicts, productDisplay, type Locale } from '../i18n/ui.ts';
+import { dicts, type Locale } from '../i18n/ui.ts';
 import ArrowIcon from './ArrowIcon.astro';
 
-interface Props {
-  products: CollectionEntry<'products'>[];
-}
-
-const { products } = Astro.props;
 const locale = (Astro.currentLocale as Locale) ?? 'es';
 const t = dicts[locale];
 const todayISO = new Date().toISOString().split('T')[0];
@@ -52,14 +46,7 @@ const todayISO = new Date().toISOString().split('T')[0];
         </label>
         <label class="field">
           <span>{t.qo.fProduct}</span>
-          <select name="product" id="selProducto">
-            <option value="">{t.qo.selProduct}</option>
-            {products.map((p) => {
-              const disp = productDisplay(p.data, locale);
-              return <option value={disp.name}>{disp.name} · {p.data.sku}</option>;
-            })}
-            <option value={t.qo.otrodProduct}>{t.qo.otrodProduct}</option>
-          </select>
+          <input type="text" name="product" placeholder={t.qo.fProductPh} />
         </label>
         <div class="field-row">
           <label class="field">
@@ -346,14 +333,6 @@ const todayISO = new Date().toISOString().split('T')[0];
 
 <script>
   const form = document.getElementById('quoteForm') as HTMLFormElement | null;
-
-  document.addEventListener('click', (e) => {
-    const btn = (e.target as HTMLElement).closest<HTMLAnchorElement>('[data-quote-product]');
-    if (!btn || !form) return;
-    const sel = document.getElementById('selProducto') as HTMLSelectElement | null;
-    const value = btn.dataset.quoteProduct || '';
-    if (sel && value) sel.value = value;
-  });
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();

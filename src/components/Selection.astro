@@ -1,18 +1,12 @@
 ---
-import { dicts, productDisplay, type Locale } from '../i18n/ui.ts';
-import type { CollectionEntry } from 'astro:content';
+import { dicts, type Locale } from '../i18n/ui.ts';
 import ArrowIcon from './ArrowIcon.astro';
-import ProductArt from './ProductArt.astro';
 
-interface Props {
-  products: CollectionEntry<'products'>[];
-}
-
-const { products } = Astro.props;
 const locale = (Astro.currentLocale as Locale) ?? 'es';
 const t = dicts[locale];
 
-const total = products.length;
+const fotos = Array.from({ length: 7 }, (_, i) => `/fotos/foto-${String(i + 1).padStart(2, '0')}.jpg`);
+const total = fotos.length;
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
@@ -45,27 +39,27 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
   <div class="cue__viewport" id="cueViewport">
     <div class="cue__track" id="cueTrack" role="region" aria-label={t.cue.region} tabindex="0">
-      {products.map((p, i) => {
-        const disp = productDisplay(p.data, locale);
-        return (
-          <article
-            class={`cue__photo${i === 0 ? ' is-active' : ''}`}
-            id={`cue-slide-${p.data.slug}`}
-            data-index={i}
-            aria-label={disp.name}
-          >
-            <div class="cue__photo-art">
-              <ProductArt variant={p.data.art} uid={`deck-${p.data.slug}`} />
-            </div>
-            <p class="cue__cap">
-              <a href="#formulario" data-quote-product={disp.name}>
-                {disp.name}
-              </a>
-              <span class="cue__fig mono">{pad(i + 1)}</span>
-            </p>
-          </article>
-        );
-      })}
+      {fotos.map((src, i) => (
+        <article
+          class={`cue__photo${i === 0 ? ' is-active' : ''}`}
+          id={`cue-slide-${i + 1}`}
+          data-index={i}
+          aria-label={t.cue.caption}
+        >
+          <div class="cue__photo-art">
+            <img
+              src={src}
+              alt={t.cue.caption}
+              loading={i === 0 ? 'eager' : 'lazy'}
+              decoding="async"
+            />
+          </div>
+          <p class="cue__cap">
+            <span class="cue__cap-txt">{t.cue.caption}</span>
+            <span class="cue__fig mono">{pad(i + 1)}</span>
+          </p>
+        </article>
+      ))}
     </div>
   </div>
 
@@ -192,7 +186,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     aspect-ratio: 4 / 5;
   }
 
-  .cue__photo-art :global(svg) {
+  .cue__photo-art :global(img) {
     display: block;
     width: 100%;
     height: 100%;
@@ -207,19 +201,11 @@ const pad = (n: number) => String(n).padStart(2, '0');
     margin: 0.95rem 0.2rem 0;
   }
 
-  .cue__cap a {
+  .cue__cap-txt {
     font-family: var(--font-sans);
     font-weight: 600;
     font-size: 0.95rem;
     color: var(--bone);
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: color 0.25s var(--ease), border-bottom-color 0.25s var(--ease);
-  }
-
-  .cue__cap a:hover {
-    color: var(--pine-hi);
-    border-bottom-color: currentColor;
   }
 
   .cue__fig {

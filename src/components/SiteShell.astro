@@ -10,26 +10,19 @@ import CTASection from './CTASection.astro';
 import QuoteForm from './QuoteForm.astro';
 import SupplierForm from './SupplierForm.astro';
 import Footer from './Footer.astro';
-import type { CollectionEntry } from 'astro:content';
-
-interface Props {
-  products: CollectionEntry<'products'>[];
-}
-
-const { products } = Astro.props;
 ---
 
 <Navbar />
 
 <main id="contenido">
   <Hero />
-  <Selection products={products} />
+  <Selection />
   <Services />
   <Process />
   <Applications />
   <About />
   <CTASection />
-  <QuoteForm products={products} />
+  <QuoteForm />
   <SupplierForm />
 </main>
 

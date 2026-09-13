@@ -46,7 +46,10 @@ function makeDict(l: Locale) {
         'Soluções de merchandising, produtos promocionais e presentes corporativos para empresas, campanhas e eventos. Buscamos, selecionamos e importamos produtos de fabricantes no Brasil e em outros mercados, gerenciando a personalização e todo o processo até a entrega no Chile.'
       ),
       cta: one('Solicitar cotización', 'Solicitar cotação'),
-      viewProducts: one('Ver productos', 'Ver produtos'),
+      value: one(
+        'A diferencia de los genéricos de China, los productos fabricados en Brasil se personalizan por completo: color, material y acabado a la medida de tu marca.',
+        'Diferente dos genéricos da China, os produtos fabricados no Brasil são personalizados por completo: cor, material e acabamento sob medida para a sua marca.'
+      ),
       suppliers: one('Para proveedores', 'Para fornecedores'),
       meta1: one('Personalización propia', 'Personalização própria'),
       note: one(
@@ -63,15 +66,10 @@ function makeDict(l: Locale) {
         'Una selección de productos para campañas, eventos y regalos corporativos. Renovamos la vitrina cada mes.',
         'Uma seleção de produtos para campanhas, eventos e presentes corporativos. Renovamos a vitrine a cada mês.'
       ),
-      prev: one('Producto anterior', 'Produto anterior'),
-      next: one('Producto siguiente', 'Próximo produto'),
-      region: one('Productos destacados', 'Produtos em destaque'),
-      cust: one('Personalización', 'Personalização'),
-      quote: one('Solicitar cotización', 'Solicitar cotação'),
-      of: one('de', 'de'),
-      specMaterial: one('Material', 'Material'),
-      specMoq: one('Mínimo', 'Mínimo'),
-      specOrigin: one('Origen', 'Origem'),
+      prev: one('Anterior', 'Anterior'),
+      next: one('Siguiente', 'Próximo'),
+      region: one('Trabajos recientes', 'Trabalhos recentes'),
+      caption: one('Hecho a medida en Brasil', 'Feito sob medida no Brasil'),
     },
     svc: {
       eyebrow: one('Qué hacemos', 'O que fazemos'),
@@ -202,7 +200,7 @@ function makeDict(l: Locale) {
         'Preencha o formulário e respondemos em até 24 horas úteis com uma proposta adaptada à sua campanha.'
       ),
       what: [
-        { label: one('Producto', 'Produto'), text: one('Cuéntanos qué necesitas o elige uno de la selección', 'Conte o que precisa ou escolha um da seleção') },
+        { label: one('Producto', 'Produto'), text: one('Cuéntanos qué necesitas exactamente', 'Conte exatamente o que você precisa') },
         { label: one('Cantidad', 'Quantidade'), text: one('Para poder hablar de precios reales', 'Para falarmos de preços reais') },
         { label: one('Fecha', 'Prazo'), text: one('El momento en que lo necesitas entregado', 'Quando você precisa da entrega') },
         { label: one('Personalización', 'Personalização'), text: one('Técnica y colores si ya los tienes en mente', 'Técnica e cores, se você já tem em mente') },
@@ -213,9 +211,8 @@ function makeDict(l: Locale) {
       fCompany: one('Empresa', 'Empresa'),
       fEmail: one('Email', 'E-mail'),
       fPhone: one('Teléfono', 'Telefone'),
-      fProduct: one('Producto de interés', 'Produto de interesse'),
-      selProduct: one('— Elige una opción o cuéntanos a medida —', '— Escolha uma opção ou conte sob medida —'),
-      otrodProduct: one('A medida / otro producto', 'Sob medida / outro produto'),
+      fProduct: one('Producto a personalizar', 'Produto a personalizar'),
+      fProductPh: one('¿Qué quieres personalizar? Ej.: poleras, loncheras, tazas, packaging…', 'O que você quer personalizar? Ex.: camisetas, lancheiras, canecas, embalagens…'),
       fQty: one('Cantidad aproximada', 'Quantidade aproximada'),
       selQty: one('— Selecciona —', '— Selecione —'),
       quantities: [one('Menos de 50', 'Menos de 50'), one('50 – 199', '50 – 199'), one('200 – 499', '200 – 499'), one('500 – 999', '500 – 999'), one('1.000 o más', '1.000 ou mais')],
