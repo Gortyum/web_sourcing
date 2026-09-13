@@ -27,10 +27,10 @@ const pad = (n: number) => String(n).padStart(2, '0');
         </p>
         <div class="cue__nav">
           <button class="arrowbtn" type="button" data-nav="prev" aria-label={t.cue.prev}>
-            <ArrowIcon n={16} />
+            <ArrowIcon dir="left" n={16} />
           </button>
           <button class="arrowbtn" type="button" data-nav="next" aria-label={t.cue.next}>
-            <ArrowIcon n={16} />
+            <ArrowIcon dir="right" n={16} />
           </button>
         </div>
       </div>
@@ -144,14 +144,6 @@ const pad = (n: number) => String(n).padStart(2, '0');
   .arrowbtn:disabled {
     opacity: 0.3;
     cursor: default;
-  }
-
-  .arrowbtn:first-child :global(svg) {
-    transform: rotate(-90deg);
-  }
-
-  .arrowbtn:last-child :global(svg) {
-    transform: rotate(90deg);
   }
 
   .cue__viewport {

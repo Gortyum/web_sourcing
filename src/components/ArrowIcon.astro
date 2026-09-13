@@ -1,10 +1,10 @@
 ---
 interface Props {
-  dir?: 'right' | 'down' | 'up';
+  dir?: 'right' | 'left' | 'down' | 'up';
   n?: number;
 }
 const { dir = 'right', n = 18 } = Astro.props;
-const angle = dir === 'right' ? 0 : dir === 'down' ? 90 : -90;
+const angle = dir === 'right' ? 0 : dir === 'left' ? 180 : dir === 'down' ? 90 : -90;
 ---
 <svg
   class="btn__arrow"
