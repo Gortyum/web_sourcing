@@ -319,7 +319,7 @@ em.i {
 }
 
 .btn--text .btn__arrow {
-  transform: rotate(90deg);
+  transform: rotate(180deg);
 }
 
 .btn--text:hover {
