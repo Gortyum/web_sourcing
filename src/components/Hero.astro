@@ -47,7 +47,11 @@ const tokens: Token[] = [
         <a class="btn btn--outline btn--big" href="#proveedores">
           {t.hero.suppliers}
         </a>
-        <p class="hero__value">{t.hero.value}</p>
+        <p class="hero__value">
+          <strong class="hero__value-title">{t.hero.valueTitle}</strong>
+          <span class="hero__value-lead">{t.hero.valueLead}</span>
+          <span class="hero__value-note">{t.hero.valueNote}</span>
+        </p>
       </div>
       <p class="hero__meta mono reveal" style="--rd:.6s">
         <span>{t.hero.meta1}</span>
@@ -192,13 +196,34 @@ const tokens: Token[] = [
 
   .hero__value {
     flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
     margin: 0.4rem 0 0;
-    max-width: 34rem;
+    max-width: 36rem;
+  }
+
+  .hero__value-title {
     font-family: var(--font-display);
-    font-weight: 380;
-    font-size: clamp(1.02rem, 1.6vw, 1.2rem);
-    line-height: 1.5;
+    font-style: italic;
+    font-weight: 420;
+    font-size: clamp(1.3rem, 2.3vw, 1.9rem);
+    line-height: 1.2;
     color: var(--pine-hi);
+  }
+
+  .hero__value-lead {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: rgba(250, 248, 241, 0.8);
+  }
+
+  .hero__value-note {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1.6;
+    letter-spacing: 0.08em;
+    color: var(--mist-2);
   }
 
   .hero__art {

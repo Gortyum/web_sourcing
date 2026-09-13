@@ -45,10 +45,15 @@ function makeDict(l: Locale) {
         'Soluciones de merchandising, productos promocionales y regalos corporativos para empresas, campañas y eventos. Buscamos, seleccionamos e importamos productos de fabricantes en Brasil y otros mercados, gestionando la personalización y todo el proceso hasta la entrega en Chile.',
         'Soluções de merchandising, produtos promocionais e presentes corporativos para empresas, campanhas e eventos. Buscamos, selecionamos e importamos produtos de fabricantes no Brasil e em outros mercados, gerenciando a personalização e todo o processo até a entrega no Chile.'
       ),
-      cta: one('Solicitar cotización', 'Solicitar cotação'),
-      value: one(
-        'A diferencia de los genéricos de China, los productos fabricados en Brasil se personalizan por completo: color, material y acabado a la medida de tu marca.',
-        'Diferente dos genéricos da China, os produtos fabricados no Brasil são personalizados por completo: cor, material e acabamento sob medida para a sua marca.'
+cta: one('Solicitar cotización', 'Solicitar cotação'),
+      valueTitle: one('Brasil, más cerca de tu negocio.', 'Brasil, mais perto do seu negócio.'),
+      valueLead: one(
+        'Brasil ofrece una alternativa competitiva para empresas que buscan desarrollar productos promocionales y merchandising con menores volúmenes mínimos, mayor flexibilidad y tiempos de abastecimiento más acotados que los mercados asiáticos en determinados proyectos.',
+        'O Brasil oferece uma alternativa competitiva para empresas que buscam desenvolver produtos promocionais e merchandising com volumes mínimos menores, maior flexibilidade e prazos de abastecimento mais curtos do que os mercados asiáticos em determinados projetos.'
+      ),
+      valueNote: one(
+        'Trabajamos directamente con fabricantes y proveedores seleccionados para encontrar la solución adecuada para cada necesidad.',
+        'Trabalhamos diretamente com fabricantes e fornecedores selecionados para encontrar a solução adequada para cada necessidade.'
       ),
       suppliers: one('Para proveedores', 'Para fornecedores'),
       meta1: one('Personalización propia', 'Personalização própria'),
