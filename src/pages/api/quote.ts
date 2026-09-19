@@ -1,8 +1,15 @@
 import type { APIRoute } from 'astro';
 import { sendMail, type MailRow } from '../../lib/mail';
+import {
+  anyFieldOver,
+  checkRateLimit,
+  consentAccepted,
+  getClientIp,
+  isHoneypotFilled,
+} from '../../lib/guard';
 
 const apiKey = (import.meta.env.RESEND_API_KEY as string | undefined) || process.env.RESEND_API_KEY;
-
+const ROUTE = 'quote';
 const emptyRow: MailRow = { label: '', value: '' };
 
 export const prerender = false;
@@ -13,7 +20,29 @@ export const POST: APIRoute = async ({ request }) => {
     return Response.json({ error: 'not_configured' }, { status: 503 });
   }
 
+  const rate = checkRateLimit(`${ROUTE}:${getClientIp(request)}`);
+  if (!rate.allowed) {
+    return Response.json(
+      { error: 'rate_limited' },
+      { status: 429, headers: { 'Retry-After': String(rate.retryAfterSec) } }
+    );
+  }
+
   const data = await request.formData();
+  const lang = data.get('lang') === 'pt' ? 'pt' : 'es';
+
+  if (isHoneypotFilled(data)) {
+    console.warn('[quote] intento de spam descartado (honeypot)');
+    return Response.json({ ok: true });
+  }
+  if (!consentAccepted(data)) {
+    return Response.json({ error: 'consent_required' }, { status: 400 });
+  }
+  const over = anyFieldOver(data);
+  if (over) {
+    return Response.json({ error: 'invalid_field', field: over }, { status: 400 });
+  }
+
   const get = (k: string) => (data.get(k) as string | null)?.trim() ?? '';
   const name = get('name');
   const email = get('email');
@@ -23,7 +52,6 @@ export const POST: APIRoute = async ({ request }) => {
   const quantity = get('quantity');
   const date = get('date');
   const message = get('message');
-  const lang = get('lang') === 'pt' ? 'pt' : 'es';
 
   if (!name || !email) {
     return Response.json({ error: 'required' }, { status: 400 });
@@ -41,6 +69,7 @@ export const POST: APIRoute = async ({ request }) => {
     quantity: lang === 'pt' ? 'Cantidad' : 'Cantidad',
     date: lang === 'pt' ? 'Tiempo' : 'Tiempo',
     message: lang === 'pt' ? 'Mensaje' : 'Mensaje',
+    consent: lang === 'pt' ? 'Consentimento (dados pessoais)' : 'Consentimiento (datos personales)',
   };
 
   const subject =
@@ -57,6 +86,10 @@ export const POST: APIRoute = async ({ request }) => {
     quantity ? { label: labels.quantity, value: quantity } : emptyRow,
     date ? { label: labels.date, value: date } : emptyRow,
     message ? { label: labels.message, value: message } : emptyRow,
+    {
+      label: labels.consent,
+      value: `${lang === 'pt' ? 'Aceito' : 'Aceptado'} · ${new Date().toISOString()}`,
+    },
   ];
 
   try {

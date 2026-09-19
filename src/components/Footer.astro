@@ -5,6 +5,7 @@ import LeafMark from './LeafMark.astro';
 const locale = (Astro.currentLocale as Locale) ?? 'es';
 const t = dicts[locale];
 const year = new Date().getFullYear();
+const privacyHref = locale === 'pt' ? '/pt/privacidad/' : '/privacidad/';
 
 const navLinks = [
   { href: '#inicio', label: t.nav.home },
@@ -53,7 +54,7 @@ const navLinks = [
       <p>© {year} Eleni Sourcing SPA. {t.foot.rights}</p>
       <nav class="site-foot__legal" aria-label="Legal">
         <a href="#inicio">{t.foot.legalTerms}</a>
-        <a href="#inicio">{t.foot.legalPrivacy}</a>
+        <a href={privacyHref}>{t.foot.legalPrivacy}</a>
       </nav>
     </div>
   </div>

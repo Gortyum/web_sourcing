@@ -1,0 +1,100 @@
+---
+import { dicts, type Locale } from '../i18n/ui.ts';
+
+const locale = (Astro.currentLocale as Locale) ?? 'es';
+const t = dicts[locale];
+const home = locale === 'pt' ? '/pt/' : '/';
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<main id="contenido" class="privacy">
+  <article class="shell privacy__wrap">
+    <p class="eyebrow">{t.privacy.eyebrow}</p>
+    <h1 class="privacy__title">{t.privacy.title}</h1>
+    <p class="mono muted-d privacy__meta">{t.privacy.updated}</p>
+    <p class="lede privacy__intro">{t.privacy.intro}</p>
+
+    {t.privacy.sections.map((s, i) => (
+      <section class="privacy__sec">
+        <h2>
+          <span class="mono privacy__num">{pad(i + 1)}</span>
+          {s.h}
+        </h2>
+        <p>{s.body}</p>
+      </section>
+    ))}
+
+    <p class="privacy__back">
+      <a href={home}>{t.privacy.back}</a>
+    </p>
+  </article>
+</main>
+
+<style>
+  .privacy {
+    background: var(--carbon);
+    color: var(--bone);
+    padding: calc(var(--nav-h) + clamp(3rem, 8vw, 6rem)) 0 var(--sec-y);
+    min-height: 100svh;
+  }
+
+  .privacy__wrap {
+    max-width: 46rem;
+  }
+
+  .privacy__title {
+    margin-top: 1.3rem;
+    max-width: 18ch;
+  }
+
+  .privacy__meta {
+    margin: 1.1rem 0 0;
+  }
+
+  .privacy__intro {
+    margin: 2rem 0 0;
+    color: var(--mist-2);
+  }
+
+  .privacy__sec {
+    margin-top: 3rem;
+    border-top: 1px solid var(--line-d);
+    padding-top: 2rem;
+  }
+
+  .privacy__sec h2 {
+    display: flex;
+    align-items: baseline;
+    gap: 0.9rem;
+    font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+    margin: 0 0 0.7rem;
+  }
+
+  .privacy__num {
+    color: var(--pine-hi);
+    letter-spacing: 0.2em;
+    font-size: 0.72rem;
+  }
+
+  .privacy__sec p {
+    margin: 0;
+    max-width: 40rem;
+    color: rgba(250, 248, 241, 0.78);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .privacy__back {
+    margin-top: 3.5rem;
+  }
+
+  .privacy__back a {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--pine-hi);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+  }
+</style>

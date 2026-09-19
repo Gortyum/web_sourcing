@@ -6,6 +6,7 @@ interface Props {
   title?: string;
   description?: string;
   ogType?: string;
+  canonicalPath?: string;
 }
 
 const SITE = {
@@ -15,25 +16,11 @@ const SITE = {
 
 const locale: Locale = (Astro.currentLocale as Locale) ?? 'es';
 const isPt = locale === 'pt';
-const path = isPt ? '/pt/' : '/';
-const canonical = `${SITE.url}${path}`;
 const ogLocale = isPt ? 'pt_BR' : 'es_CL';
-
-const descEs =
-  'Productos promocionales, merchandising corporativo y regalos empresariales en Chile. Sourcing e importación desde Brasil y otros mercados, personalización y desarrollo de productos.';
-const descPt =
-  'Produtos promocionais, merchandising corporativo e presentes empresariais no Chile. Sourcing e importação do Brasil e de outros mercados, personalização e desenvolvimento de produtos.';
-
-const defaults = {
-  title: isPt
-    ? 'Produtos Promocionais e Merchandising no Chile | Eleni Sourcing'
-    : 'Productos Promocionales y Merchandising en Chile | Eleni Sourcing',
-  description: isPt ? descPt : descEs,
-};
-
-const { title = defaults.title, description = defaults.description, ogType = 'website' } = Astro.props;
+const { title = defaults.title, description = defaults.description, ogType = 'website', canonicalPath } = Astro.props;
 const fullTitle = title === defaults.title ? title : `${title} · Eleni Sourcing`;
 const ogImage = `${SITE.url}/og.svg`;
+const canonical = `${SITE.url}${canonicalPath ?? (isPt ? '/pt/' : '/')}`;
 ---
 
 <!doctype html>

@@ -5,6 +5,7 @@ import ArrowIcon from './ArrowIcon.astro';
 const locale = (Astro.currentLocale as Locale) ?? 'es';
 const t = dicts[locale];
 const todayISO = new Date().toISOString().split('T')[0];
+const privacyHref = locale === 'pt' ? '/pt/privacidad/' : '/privacidad/';
 ---
 
 <section class="qo" id="formulario" aria-labelledby="qo-title">
@@ -27,6 +28,7 @@ const todayISO = new Date().toISOString().split('T')[0];
 
     <form class="qo__form reveal" style="--rd:.25s" id="quoteForm" novalidate>
       <input type="hidden" name="lang" value={locale} />
+      <input class="hp" type="text" name="_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
       <div class="qo__fields">
         <label class="field field--half">
           <span>{t.qo.fName}</span>
@@ -66,6 +68,11 @@ const todayISO = new Date().toISOString().split('T')[0];
           <textarea name="message" rows={4} placeholder={t.qo.msgPh}></textarea>
         </label>
       </div>
+
+      <label class="qo__consent">
+        <input type="checkbox" name="consent" value="1" required />
+        <span>{t.qo.consent} <a href={privacyHref} hreflang={locale}>{t.qo.consentLink}</a>.</span>
+      </label>
 
       <div class="qo__actions">
         <button class="btn btn--primary btn--big" type="submit" id="qoSubmit" data-submit={t.qo.submit} data-sending={t.qo.sending}>
@@ -249,6 +256,30 @@ const todayISO = new Date().toISOString().split('T')[0];
   .qo__fine {
     color: var(--mist);
     letter-spacing: 0.08em;
+  }
+
+  .qo__consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--mist);
+    margin-top: 0.2rem;
+  }
+
+  .qo__consent input {
+    width: auto;
+    flex: 0 0 auto;
+    margin-top: 0.2rem;
+    accent-color: var(--pine);
+    border-radius: 0;
+  }
+
+  .qo__consent a {
+    color: var(--pine);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
   }
 
   .qo__error {

@@ -4,6 +4,7 @@ import ArrowIcon from './ArrowIcon.astro';
 
 const locale = (Astro.currentLocale as Locale) ?? 'es';
 const t = dicts[locale];
+const privacyHref = locale === 'pt' ? '/pt/privacidad/' : '/privacidad/';
 
 const dateLabel = new Intl.DateTimeFormat(locale === 'pt' ? 'pt-BR' : 'es-CL', {
   month: 'long',
@@ -62,6 +63,7 @@ const tokens: Token[] = [
     <div class="hero__art reveal" style="--rd:.4s">
       <form class="hform" id="contactForm" novalidate>
         <input type="hidden" name="lang" value={locale} />
+        <input class="hp" type="text" name="_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <label class="hform__field">
           <span>{t.contact.fName}</span>
           <input type="text" name="name" autocomplete="name" required />
@@ -73,6 +75,10 @@ const tokens: Token[] = [
         <label class="hform__field">
           <span>{t.contact.fMsg}</span>
           <textarea name="message" rows={4} placeholder={t.contact.msgPh}></textarea>
+        </label>
+        <label class="hform__consent">
+          <input type="checkbox" name="consent" value="1" required />
+          <span>{t.contact.consent} <a href={privacyHref} hreflang={locale}>{t.contact.consentLink}</a>.</span>
         </label>
         <button class="btn btn--primary btn--big hform__btn" type="submit" id="cFormSubmit" data-submit={t.contact.submit} data-sending={t.contact.sending}>
           <span id="cFormSubmitLabel">{t.contact.submit}</span> <ArrowIcon n={17} />
@@ -279,6 +285,30 @@ const tokens: Token[] = [
   .hform__btn {
     align-self: flex-start;
     margin-top: 0.2rem;
+  }
+
+  .hform__consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    font-size: 0.8rem;
+    line-height: 1.55;
+    color: var(--mist);
+    margin-top: 0.1rem;
+  }
+
+  .hform__consent input {
+    width: auto;
+    flex: 0 0 auto;
+    margin-top: 0.2rem;
+    accent-color: var(--pine);
+    border-radius: 0;
+  }
+
+  .hform__consent a {
+    color: var(--pine);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
   }
 
   .hform__error {

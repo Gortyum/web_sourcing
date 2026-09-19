@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import PrivacyPage from '../components/PrivacyPage.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { dicts } from '../i18n/ui.ts';
+
+const t = dicts['es'];
+---
+
+<Base title={t.privacy.title} description={t.privacy.desc} canonicalPath="/privacidad/">
+  <Navbar />
+  <PrivacyPage />
+  <Footer />
+</Base>

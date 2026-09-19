@@ -34,11 +34,13 @@ vitrina-promo/
   astro.config.mjs        # adapter Vercel, i18n es/pt, checkOrigin off
   .env                    # SECRETOS — nunca se sube al repo
   src/
-    components/           # Hero, Selection, Products, QuoteForm, SupplierForm, Footer, SiteShell...
+    components/           # Hero, Selection, Products, QuoteForm, SupplierForm, PrivacyPage, Footer, SiteShell...
     layouts/              # Base.astro (head SEO, JSON-LD, fuentes)
     pages/
       index.astro         # es (default)
+      privacidad.astro    # aviso de privacidad (es)
       pt/index.astro      # pt-BR
+      pt/privacidad.astro # aviso de privacidade (pt-BR)
       api/
         contact.ts        # formulario general de contacto
         quote.ts          # solicitud de cotizacion

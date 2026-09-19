@@ -205,6 +205,20 @@ textarea {
   color: var(--mist-2);
 }
 
+/* Anti-spam: campo honeypot invisible a humanos, visible a bots */
+.hp {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  border: 0 !important;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+}
+
 .muted-l {
   color: var(--mist);
 }

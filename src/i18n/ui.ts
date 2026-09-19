@@ -229,6 +229,8 @@ cta: one('Solicitar cotización', 'Solicitar cotação'),
       ),
       submit: one('Enviar solicitud', 'Enviar solicitação'),
       fine: one('Sin descargas · sin e-commerce · directamente con el equipo', 'Sem downloads · sem e-commerce · direto com o time'),
+      consent: one('He leído y acepto el', 'Li e aceito o'),
+      consentLink: one('aviso de privacidad', 'aviso de privacidade'),
       doneTitle: one('Solicitud enviada.', 'Solicitação enviada.'),
       doneText: one(
         'Gracias por tu interés. Te responderemos dentro de las próximas 24 horas hábiles con una propuesta para tu proyecto.',
@@ -312,6 +314,8 @@ cta: one('Solicitar cotización', 'Solicitar cotação'),
         'Revisamos cada postulación y respondemos dentro de 5 días hábiles.',
         'Revisamos cada candidatura e respondemos em até 5 dias úteis.'
       ),
+      consent: one('He leído y acepto el', 'Li e aceito o'),
+      consentLink: one('aviso de privacidad', 'aviso de privacidade'),
       doneTitle: one('Postulación enviada.', 'Candidatura enviada.'),
       doneText: one(
         'Gracias por tu interés. Si tu oferta encaja con lo que buscamos, te escribiremos pronto.',
@@ -341,6 +345,8 @@ cta: one('Solicitar cotización', 'Solicitar cotação'),
       doneTitle: one('Mensaje enviado.', 'Mensagem enviada.'),
       doneText: one('Gracias por escribirnos. Te responderemos a la brevedad.', 'Obrigado por escrever. Responderemos em breve.'),
       note: one('Respuesta directa por email', 'Resposta direta por e-mail'),
+      consent: one('He leído y acepto el', 'Li e aceito o'),
+      consentLink: one('aviso de privacidad', 'aviso de privacidade'),
     },
     foot: {
       blurb: one(
@@ -349,9 +355,67 @@ cta: one('Solicitar cotización', 'Solicitar cotação'),
       ),
       nav: one('Navegación', 'Navegação'),
       contact: one('Contacto', 'Contato'),
-      legalTerms: one('Términos', 'Termos'),
+legalTerms: one('Términos', 'Termos'),
       legalPrivacy: one('Privacidad', 'Privacidade'),
       rights: one('Todos los derechos reservados.', 'Todos os direitos reservados.'),
+    },
+    privacy: {
+      eyebrow: one('Política de privacidad', 'Política de privacidade'),
+      title: one('Aviso de privacidad', 'Aviso de privacidade'),
+      desc: one(
+        'Cómo tratamos los datos personales que nos envías a través de los formularios del sitio.',
+        'Como tratamos os dados pessoais que você nos envia pelos formulários do site.'
+      ),
+      updated: one('Actualizado: septiembre de 2026', 'Atualizado: setembro de 2026'),
+      intro: one(
+        'En Eleni Sourcing SpA protegemos tus datos personales. Este aviso explica qué datos recopilamos a través de los formularios del sitio, para qué los usamos y qué derechos tienes.',
+        'Na Eleni Sourcing SpA, protegemos os seus dados pessoais. Este aviso explica quais dados coletamos pelos formulários do site, para que os usamos e quais direitos você tem.'
+      ),
+      sections: [
+        {
+          h: one('¿Qué datos recopilamos?', 'Quais dados coletamos?'),
+          body: one(
+            'Solo los que tú escribes en nuestros formularios: nombre, empresa, email, teléfono y el contenido del mensaje (producto, cantidades, plazos o categorías según el formulario). También registramos la fecha y hora del envío y la IP desde la que se envió, para prevenir usos fraudulentos.',
+            'Apenas os que você escreve nos nossos formulários: nome, empresa, e-mail, telefone e o conteúdo da mensagem (produto, quantidades, prazos ou categorias conforme o formulário). Também registramos a data e a hora do envio e o IP de origem, para prevenir usos fraudulentos.'
+          ),
+        },
+        {
+          h: one('Finalidad y base legal', 'Finalidade e base legal'),
+          body: one(
+            'Usamos tus datos únicamente para responder tu consulta, preparar una cotización o evaluar una postulación de proveedor. La base legal es tu consentimiento: al marcar la casilla, autorizas el tratamiento para esa finalidad.',
+            'Usamos os seus dados apenas para responder à sua consulta, preparar uma cotação ou avaliar uma candidatura de fornecedor. A base legal é o seu consentimento: ao marcar a caixa, você autoriza o tratamento para essa finalidade.'
+          ),
+        },
+        {
+          h: one('¿Con quién se comparten?', 'Com quem são compartilhados?'),
+          body: one(
+            'Tus datos se envían por correo electrónico a la marca a través de Resend, que actúa como encargado del tratamiento. No vendemos ni cedemos tus datos a terceros.',
+            'Os seus dados são enviados por e-mail à marca por meio da Resend, que atua como operadora. Não vendemos nem cedemos os seus dados a terceiros.'
+          ),
+        },
+        {
+          h: one('¿Cuánto tiempo los conservamos?', 'Por quanto tempo os guardamos?'),
+          body: one(
+            'Los conservamos mientras sea necesario para gestionar tu consulta o mantener el historial comercial, y luego se eliminan.',
+            'Os guardamos enquanto for necessário para gerenciar a sua consulta ou manter o histórico comercial, e depois são excluídos.'
+          ),
+        },
+        {
+          h: one('Tus derechos', 'Os seus direitos'),
+          body: one(
+            'Puedes acceder, rectificar o solicitar la eliminación de tus datos personales escribiéndonos a eleni@elenisourcing.com. Chile: Ley 19.628. Brasil: Ley General de Protección de Datos (LGPD, Ley 13.709/2018).',
+            'Você pode acessar, corrigir ou solicitar a exclusão dos seus dados pessoais escrevendo para eleni@elenisourcing.com. Brasil: Lei Geral de Proteção de Dados (LGPD, Lei 13.709/2018). Chile: Ley 19.628.'
+          ),
+        },
+        {
+          h: one('Contacto', 'Contato'),
+          body: one(
+            'Eleni Sourcing SpA · Santiago, Chile · eleni@elenisourcing.com',
+            'Eleni Sourcing SpA · Santiago, Chile · eleni@elenisourcing.com'
+          ),
+        },
+      ],
+      back: one('← Volver al inicio', '← Voltar ao início'),
     },
   };
 }

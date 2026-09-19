@@ -4,6 +4,7 @@ import ArrowIcon from './ArrowIcon.astro';
 
 const locale = (Astro.currentLocale as Locale) ?? 'es';
 const t = dicts[locale];
+const privacyHref = locale === 'pt' ? '/pt/privacidad/' : '/privacidad/';
 ---
 
 <section class="sup" id="proveedores" aria-labelledby="sup-title">
@@ -24,6 +25,7 @@ const t = dicts[locale];
 
     <form class="sup__form reveal" style="--rd:.25s" id="supplierForm" novalidate>
       <input type="hidden" name="lang" value={locale} />
+      <input class="hp" type="text" name="_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
       <div class="sup__fields">
         <label class="field field--half">
           <span>{t.sup.fCompany}</span>
@@ -89,6 +91,11 @@ const t = dicts[locale];
           <textarea name="message" rows={4} placeholder={t.sup.msgPh}></textarea>
         </label>
       </div>
+
+      <label class="sup__consent">
+        <input type="checkbox" name="consent" value="1" required />
+        <span>{t.sup.consent} <a href={privacyHref} hreflang={locale}>{t.sup.consentLink}</a>.</span>
+      </label>
 
       <div class="sup__actions">
         <button class="btn btn--primary btn--big" type="submit" id="supSubmit" data-submit={t.sup.submit} data-sending={t.sup.sending}>
@@ -264,6 +271,30 @@ const t = dicts[locale];
   .sup__fine {
     color: var(--mist);
     letter-spacing: 0.08em;
+  }
+
+  .sup__consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.55rem;
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--mist);
+    margin-top: 0.2rem;
+  }
+
+  .sup__consent input {
+    width: auto;
+    flex: 0 0 auto;
+    margin-top: 0.2rem;
+    accent-color: var(--pine);
+    border-radius: 0;
+  }
+
+  .sup__consent a {
+    color: var(--pine);
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
   }
 
   .sup__error {
