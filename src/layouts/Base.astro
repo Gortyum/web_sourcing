@@ -14,6 +14,12 @@ const SITE = {
   url: 'https://www.elenisourcing.com',
 };
 
+const defaults = {
+  title: SITE.name,
+  description:
+    'Productos promocionales, merchandising corporativo e importación para marcas en Chile. Sourcing, personalización y logística — Brasil ↔ Chile.',
+};
+
 const locale: Locale = (Astro.currentLocale as Locale) ?? 'es';
 const isPt = locale === 'pt';
 const ogLocale = isPt ? 'pt_BR' : 'es_CL';
